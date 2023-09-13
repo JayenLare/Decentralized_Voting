@@ -77,4 +77,19 @@ contract Voting {
         votes[voteId].voted[msg.sender] = true;
         emit Voted(msg.sender, voteId, option, block.timestamp);
     }
+
+    function getVote(
+        uint voteId
+    ) public view returns (string memory, address, uint[] memory, uint) {
+        return (
+            votes[voteId].uri,
+            votes[voteId].owner,
+            votes[voteId].votes,
+            votes[voteId].endTime
+        );
+    }
+
+    function didVote(address member, uint voteId) public view returns (bool) {
+        return votes[voteId].voted[member];
+    }
 }
