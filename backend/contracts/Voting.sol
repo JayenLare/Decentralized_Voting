@@ -31,4 +31,16 @@ contract Voting {
         uint indexed option,
         uint createdAt
     );
+
+    modifier isMember() {
+        require(members[msg.sender], "You are not a member");
+        _;
+    }
+    modifier canVote(uint voteId, uint option) {
+        require(voteId < nextVoteId, "Vote does not exist");
+        require(option < votes[voteId].options, "Invalid option");
+        require(!votes[voteId].voted[msg.sender], "You have already voted");
+        require(block.timestamp <= votes[voteId].endTime, "Vote has ended");
+        _;
+    }
 }
