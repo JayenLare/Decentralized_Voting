@@ -2,39 +2,46 @@
 pragma solidity ^0.8.9;
 
 contract Voting {
-    uint nextVoteId;
+    // Keeps track of the vote ID and increment to ensure unique vote IDs
+    uint256 nextVoteId;
 
+    // Stores info about each vote
     struct Vote {
         string uri;
         address owner;
-        uint endTime;
-        uint[] votes;
+        uint256 endTime;
+        uint256[] votes;
         mapping(address => bool) voted;
-        uint options;
+        uint256 options;
     }
 
-    mapping(uint => Vote) votes;
+    // Stores vote ID associated with each Vote
+    mapping(uint256 => Vote) votes;
+    // Stores members
     mapping(address => bool) members;
 
-    event MemberJoined(address indexed member, uint joinedAt);
+    // Events for members joining, vote created, and members voting
+    event MemberJoined(address indexed member, uint256 joinedAt);
     event VoteCreated(
         address indexed owner,
-        uint indexed voteId,
-        uint indexed createdAt,
-        uint endTime
+        uint256 indexed voteId,
+        uint256 indexed createdAt,
+        uint256 endTime
     );
     event Voted(
         address indexed voter,
-        uint indexed voteId,
-        uint indexed option,
-        uint createdAt
+        uint256 indexed voteId,
+        uint256 indexed option,
+        uint256 createdAt
     );
 
+    // Checks if voter is a member
     modifier isMember() {
         require(members[msg.sender], "You are not a member");
         _;
     }
-    modifier canVote(uint voteId, uint option) {
+    // Checks if vote is valid
+    modifier canVote(uint256 voteId, uint256 option) {
         require(voteId < nextVoteId, "Vote does not exist");
         require(option < votes[voteId].options, "Invalid option");
         require(!votes[voteId].voted[msg.sender], "You have already voted");
@@ -42,45 +49,49 @@ contract Voting {
         _;
     }
 
+    // Allows new members to join
     function join() external {
         require(!members[msg.sender], "You are already a member");
         members[msg.sender] = true;
         emit MemberJoined(msg.sender, block.timestamp);
     }
 
+    // Creates a new vote
     function createVote(
         string memory uri,
-        uint endTime,
-        uint options
+        uint256 endTime,
+        uint256 options
     ) external isMember {
         require(
             options >= 2 && options <= 9,
             "Number of options must be between 2 and 8"
         );
         require(endTime > block.timestamp, "Invalid end time");
-        uint voteId = nextVoteId;
+        uint256 voteId = nextVoteId;
         votes[voteId].uri = uri;
         votes[voteId].owner = msg.sender;
         votes[voteId].endTime = endTime;
         votes[voteId].options = options;
-        votes[voteId].votes = new uint[](options);
+        votes[voteId].votes = new uint256[](options);
 
         emit VoteCreated(msg.sender, voteId, block.timestamp, endTime);
         nextVoteId++;
     }
 
+    // Members can vote on one of the options for a certain vote
     function vote(
-        uint voteId,
-        uint option
+        uint256 voteId,
+        uint256 option
     ) external isMember canVote(voteId, option) {
         votes[voteId].votes[option]++;
         votes[voteId].voted[msg.sender] = true;
         emit Voted(msg.sender, voteId, option, block.timestamp);
     }
 
+    // Returns vote info
     function getVote(
-        uint voteId
-    ) public view returns (string memory, address, uint[] memory, uint) {
+        uint256 voteId
+    ) public view returns (string memory, address, uint256[] memory, uint256) {
         return (
             votes[voteId].uri,
             votes[voteId].owner,
@@ -89,7 +100,11 @@ contract Voting {
         );
     }
 
-    function didVote(address member, uint voteId) public view returns (bool) {
+    // Returns if a member has already voted on a certain vote
+    function didVote(
+        address member,
+        uint256 voteId
+    ) public view returns (bool) {
         return votes[voteId].voted[member];
     }
 }
