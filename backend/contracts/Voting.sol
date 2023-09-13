@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-import "hardhat/console.sol";
-
 contract Voting {
     uint nextVoteId;
 
@@ -42,5 +40,41 @@ contract Voting {
         require(!votes[voteId].voted[msg.sender], "You have already voted");
         require(block.timestamp <= votes[voteId].endTime, "Vote has ended");
         _;
+    }
+
+    function join() external {
+        require(!members[msg.sender], "You are already a member");
+        members[msg.sender] = true;
+        emit MemberJoined(msg.sender, block.timestamp);
+    }
+
+    function createVote(
+        string memory uri,
+        uint endTime,
+        uint options
+    ) external isMember {
+        require(
+            options >= 2 && options <= 9,
+            "Number of options must be between 2 and 8"
+        );
+        require(endTime > block.timestamp, "Invalid end time");
+        uint voteId = nextVoteId;
+        votes[voteId].uri = uri;
+        votes[voteId].owner = msg.sender;
+        votes[voteId].endTime = endTime;
+        votes[voteId].options = options;
+        votes[voteId].votes = new uint[](options);
+
+        emit VoteCreated(msg.sender, voteId, block.timestamp, endTime);
+        nextVoteId++;
+    }
+
+    function vote(
+        uint voteId,
+        uint option
+    ) external isMember canVote(voteId, option) {
+        votes[voteId].votes[option]++;
+        votes[voteId].voted[msg.sender] = true;
+        emit Voted(msg.sender, voteId, option, block.timestamp);
     }
 }
