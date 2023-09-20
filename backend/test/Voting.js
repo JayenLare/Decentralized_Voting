@@ -27,4 +27,39 @@ describe("Voting", function () {
     });
   });
 
+  describe("Create vote", () => {
+    it("Cannot create vote if not member", async () => {
+      await expect(
+        voting.connect(addr1).createVote("", (await getTime()) + 60, 4)
+      ).to.be.reverted;
+    });
+    it("Cannot create vote it too few options", async () => {
+      await expect(voting.createVote("", (await getTime()) + 60, 1)
+      ).to.be.reverted;
+    });
+    it("Cannot create vote if too many options", async () => {
+      await expect(voting.createVote("", (await getTime()) + 60, 10)
+      ).to.be.reverted;
+    });
+    it("Can create vote", async () => {
+      await expect(voting.createVote("testVote1", (await getTime()) + 60, 3)
+      ).to.emit(voting, "VoteCreated");
+    });
+    it("Can create a 2nd vote", async () => {
+      await expect(voting.createVote("testVote2", (await getTime()) + 180, 4)
+      ).to.emit(voting, "VoteCreated");
+    });
+    it("Addr1 joined as new member", async () => {
+      await expect(voting.connect(addr1).join()).to.emit(voting, "MemberJoined");
+    });
+    it("New member can create vote", async () => {
+      await expect(voting.connect(addr1).createVote("testVote1", (await getTime()) + 60, 3)
+      ).to.emit(voting, "VoteCreated");
+    });
+    it("New member can create a 2nd vote", async () => {
+      await expect(voting.connect(addr1).createVote("testVote2", (await getTime()) + 180, 4)
+      ).to.emit(voting, "VoteCreated");
+    });
+  });
+
 });

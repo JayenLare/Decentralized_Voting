@@ -63,8 +63,8 @@ contract Voting {
         uint256 options
     ) external isMember {
         require(
-            options >= 2 && options <= 9,
-            "Number of options must be between 2 and 8"
+            options > 1 && options < 10,
+            "Number of options must be greater than 1 and less than 10"
         );
         require(endTime > block.timestamp, "Invalid end time");
         uint256 voteId = nextVoteId;
