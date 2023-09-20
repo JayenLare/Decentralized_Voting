@@ -9,10 +9,11 @@ const getTime = async () => {
 describe("Voting", function () {
   let addr0;
   let addr1;
+  let addr2
   let voting;
 
   before(async () => {
-    [addr0, addr1] = await ethers.getSigners();
+    [addr0, addr1, addr2] = await ethers.getSigners();
 
     const Voting = await ethers.getContractFactory("Voting");
     voting = await Voting.deploy();
@@ -59,6 +60,32 @@ describe("Voting", function () {
     it("New member can create a 2nd vote", async () => {
       await expect(voting.connect(addr1).createVote("testVote2", (await getTime()) + 180, 4)
       ).to.emit(voting, "VoteCreated");
+    });
+  });
+
+  describe("Vote", () => {
+    it("Cannot vote if not member", async () => {
+      await expect(voting.connect(addr2).vote(0, 0)).to.be.reverted;
+    });
+    it("Cannot vote on vote that doesn't exist", async () => {
+      await expect(voting.vote(4, 0)).to.be.reverted;
+    });
+    it("Cannot vote on invalid option", async () => {
+      await expect(voting.vote(0, 3)).to.be.reverted;
+    });
+    it("Can vote", async () => {
+      await expect(voting.vote(0, 0)).to.emit(voting, "Voted");
+    });
+    it("Cannot vote twice", async () => {
+      await expect(voting.vote(0, 1)).to.be.reverted;
+    });
+    it("Multiple members can vote", async () => {
+      await expect(voting.connect(addr1).vote(0, 0)).to.emit(voting, "Voted");
+    });
+    it("Cannot vote on expired vote", async () => {
+      await voting.connect(addr2).join();
+      await ethers.provider.send("evm_mine", [(await getTime()) + 180]);
+      await expect(voting.connect(addr2).vote(0, 0)).to.be.reverted;
     });
   });
 
