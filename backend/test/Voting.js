@@ -18,4 +18,13 @@ describe("Voting", function () {
     voting = await Voting.deploy();
   });
 
+  describe("Join", () => {
+    it("Can join as new member", async () => {
+      await expect(voting.join()).to.emit(voting, "MemberJoined");
+    });
+    it("Cannot join if already member", async () => {
+      await expect(voting.join()).to.be.reverted;
+    });
+  });
+
 });
