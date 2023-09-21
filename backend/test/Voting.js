@@ -9,7 +9,7 @@ const getTime = async () => {
 describe("Voting", function () {
   let addr0;
   let addr1;
-  let addr2
+  let addr2;
   let voting;
 
   before(async () => {
