@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import CreateVote from "./CreateVotes";
-import Votes from "../../Votes";
-import Navbar from "../../Navbar";
+import Votes from "./Votes";
+import Navbar from "./Navbar";
 
 function App() {
   return <Router>
