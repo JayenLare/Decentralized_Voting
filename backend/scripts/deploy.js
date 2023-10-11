@@ -2,19 +2,18 @@ const hre = require("hardhat");
 const fs = require("fs/promises");
 
 async function main() {
-  const voting = await hre.ethers.getContractFactory("Voting");
-  const Voting = await voting.deploy();
+  const Voting = await hre.ethers.getContractFactory("Voting");
+  const voting = await Voting.deploy();
 
-  await Voting.waitForDeployment();
-  await writeDeploymentInfo(Voting, "Voting.json");
-  console.log(`Deployed voting at ${Voting.target}`);
+  await voting.deployed();
+  await writeDeploymentInfo(voting, "Voting.json");
 }
 
 async function writeDeploymentInfo(contract, filename = "") {
   const data = {
     contract: {
-      address: contract.target,
-      signerAddress: contract.signer, // NEEDS FIXING
+      address: contract.address,
+      signerAddress: contract.signer.address,
       abi: contract.interface.format(),
     },
   };

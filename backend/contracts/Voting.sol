@@ -2,10 +2,8 @@
 pragma solidity ^0.8.9;
 
 contract Voting {
-    // Keeps track of the vote ID and increment to ensure unique vote IDs
     uint256 nextVoteId;
 
-    // Stores info about each vote
     struct Vote {
         string uri;
         address owner;
@@ -15,12 +13,9 @@ contract Voting {
         uint256 options;
     }
 
-    // Stores vote ID associated with each Vote
     mapping(uint256 => Vote) votes;
-    // Stores members
     mapping(address => bool) public members;
 
-    // Events for members joining, vote created, and members voting
     event MemberJoined(address indexed member, uint256 joinedAt);
     event VoteCreated(
         address indexed owner,
@@ -35,39 +30,37 @@ contract Voting {
         uint256 createdAt
     );
 
-    // Checks if voter is a member
     modifier isMember() {
-        require(members[msg.sender], "You are not a member");
-        _;
-    }
-    // Checks if vote is valid
-    modifier canVote(uint256 voteId, uint256 option) {
-        require(voteId < nextVoteId, "Vote does not exist");
-        require(option < votes[voteId].options, "Invalid option");
-        require(!votes[voteId].voted[msg.sender], "You have already voted");
-        require(block.timestamp <= votes[voteId].endTime, "Vote has ended");
+        require(members[msg.sender], "you are not a member");
         _;
     }
 
-    // Allows new members to join
+    modifier canVote(uint256 voteId, uint256 option) {
+        require(voteId < nextVoteId, "vote does not exist");
+        require(option < votes[voteId].options, "invalid option");
+        require(!votes[voteId].voted[msg.sender], "you have already voted");
+        require(block.timestamp <= votes[voteId].endTime, "vote has ended");
+        _;
+    }
+
     function join() external {
-        require(!members[msg.sender], "You are already a member");
+        require(!members[msg.sender], "you are already a member");
         members[msg.sender] = true;
         emit MemberJoined(msg.sender, block.timestamp);
     }
 
-    // Creates a new vote
     function createVote(
         string memory uri,
         uint256 endTime,
         uint256 options
     ) external isMember {
         require(
-            options > 1 && options < 10,
-            "Number of options must be greater than 1 and less than 10"
+            options >= 2 && options <= 8,
+            "number of options must be between 2 and 8"
         );
-        require(endTime > block.timestamp, "Invalid end time");
+        require(endTime > block.timestamp, "end time cannot be in past");
         uint256 voteId = nextVoteId;
+
         votes[voteId].uri = uri;
         votes[voteId].owner = msg.sender;
         votes[voteId].endTime = endTime;
@@ -78,20 +71,26 @@ contract Voting {
         nextVoteId++;
     }
 
-    // Members can vote on one of the options for a certain vote
-    function vote(
-        uint256 voteId,
-        uint256 option
-    ) external isMember canVote(voteId, option) {
-        votes[voteId].votes[option]++;
+    function vote(uint256 voteId, uint256 option)
+        external
+        isMember
+        canVote(voteId, option)
+    {
+        votes[voteId].votes[option] = votes[voteId].votes[option] + 1;
         votes[voteId].voted[msg.sender] = true;
         emit Voted(msg.sender, voteId, option, block.timestamp);
     }
 
-    // Returns vote info
-    function getVote(
-        uint256 voteId
-    ) public view returns (string memory, address, uint256[] memory, uint256) {
+    function getVote(uint256 voteId)
+        public
+        view
+        returns (
+            string memory,
+            address,
+            uint256[] memory,
+            uint256
+        )
+    {
         return (
             votes[voteId].uri,
             votes[voteId].owner,
@@ -100,11 +99,11 @@ contract Voting {
         );
     }
 
-    // Returns if a member has already voted on a certain vote
-    function didVote(
-        address member,
-        uint256 voteId
-    ) public view returns (bool) {
+    function didVote(address member, uint256 voteId)
+        public
+        view
+        returns (bool)
+    {
         return votes[voteId].voted[member];
     }
 }

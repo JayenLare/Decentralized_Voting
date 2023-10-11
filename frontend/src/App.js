@@ -1,10 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CreateVote from "./CreateVotes";
 import Votes from "./Votes";
 import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
-import { connect, getContract } from "./contract"
+import { connect, getContract } from "./contract";
 
 function App() {
   const [contract, setContract] = useState(null);
@@ -12,7 +12,7 @@ function App() {
   const [isMember, setIsMember] = useState(false);
 
   useEffect(() => {
-    window.ethereum.request({ methof: "eth_accounts" }).then((accounts) => {
+    window.ethereum.request({ method: "eth_accounts" }).then((accounts) => {
       if (accounts.length > 0) {
         handleInit();
       } else setConnected(false);
@@ -21,14 +21,15 @@ function App() {
 
   const handleInit = () => {
     setConnected(true);
-    const { contract, signer } = getContract();
-    setContract(contract);
+    getContract().then(({ contract, signer }) => {
+      setContract(contract);
 
-    if (contract) {
-      signer.getAddress().then((address) => {
-        contract.members(address).then((result) => setIsMember(result));
-      });
-    }
+      if (contract) {
+        signer.getAddress().then((address) => {
+          contract.members(address).then((result) => setIsMember(result));
+        });
+      }
+    });
   };
 
   const connectCallback = async () => {
@@ -41,28 +42,34 @@ function App() {
 
   const becomeMember = async () => {
     if (!contract) {
-      alert("Please connect to metamask");
+      alert("Please connect to metamask.");
       return;
     }
 
-    await contract.join().then(() => {
-      alert("Joined");
-      setIsMember(true);
-    }).catch((error) => alert(error.message));
+    await contract
+      .join()
+      .then(() => {
+        alert("Joined");
+        setIsMember(true);
+      })
+      .catch((error) => alert(error.message));
   };
 
   return (
     <Router>
-      <Navbar 
-        connect={connectCallback} 
-        connected={connected} 
-        becomeMember={becomeMember} 
+      <Navbar
+        connect={connectCallback}
+        connected={connected}
+        becomeMember={becomeMember}
         isMember={isMember}
       />
       <div className="container">
         <Routes>
-          <Route path="create-vote" element={<CreateVote/>} />
-          <Route path="votes" element={<Votes/>} />
+          <Route
+            path="create-vote"
+            element={<CreateVote contract={contract} />}
+          />
+          <Route path="votes" element={<Votes contract={contract} />} />
         </Routes>
       </div>
     </Router>
