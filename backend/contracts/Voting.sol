@@ -18,7 +18,7 @@ contract Voting {
     // Stores vote ID associated with each Vote
     mapping(uint256 => Vote) votes;
     // Stores members
-    mapping(address => bool) members;
+    mapping(address => bool) public members;
 
     // Events for members joining, vote created, and members voting
     event MemberJoined(address indexed member, uint256 joinedAt);
