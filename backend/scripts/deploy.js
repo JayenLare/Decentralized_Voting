@@ -7,6 +7,7 @@ async function main() {
 
   await voting.deployed();
   await writeDeploymentInfo(voting, "Voting.json");
+  console.log("Contract deployed at address: ", voting.address)
 }
 
 async function writeDeploymentInfo(contract, filename = "") {
