@@ -7,9 +7,17 @@ const CreateVote = ({ contract }) => {
     const [options, setOptions] = useState(2);
     const [endDate, setEndDate] = useState("");
 
-    const createVote = () => {
-        
-    }
+    const createVote = async () => {
+        if (!contract) {
+            alert("Please connect to Metamask")
+        }
+
+        await contract
+            .createVote(uri, new Date(endDate).getTime(), options)
+            .then(() => alert("Success"))
+            .catch((error) => alert(error.message));
+
+    };
 
     return (
         <Form className="m-2">
