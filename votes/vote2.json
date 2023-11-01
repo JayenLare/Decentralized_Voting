@@ -1,0 +1,4 @@
+{
+    "description": "What is your major?",
+    "options": ["Computer Science", "Finance", "Accounting", "Communication", "Other"]
+}
