@@ -69,38 +69,41 @@ const Votes = ({ contract }) => {
   };
 
   return (
-    <div>
-      {votes.map((vote) => (
-        <Card key={vote.id} className="my-2">
-          <Card.Header>{vote.description}</Card.Header>
-          <Card.Body>
-            {vote.options.map((option, idx) => (
-              <div className="mt-1" key={Math.random() + idx}>
-                <p>
-                  {option}:{" "}
-                  {(vote.votes[idx] / Math.max(1, vote.totalVotes)) * 100}%
-                </p>
-                <div className="d-flex w-100 align-items-center">
-                  <ProgressBar
-                    now={(vote.votes[idx] / Math.max(1, vote.totalVotes)) * 100}
-                    label={`${vote.votes[idx]}`}
-                    className="w-100 me-2"
-                  />
-                  <Button
-                    size="sm"
-                    onClick={() => {
-                      votePressed(vote.id, idx);
-                    }}
-                    variant="dark"
-                  >
-                    Vote
-                  </Button>
+    <div className="m-4">
+      <h2 className="d-flex justify-content-center">Votes</h2>
+      <div className="m-4">
+        {votes.map((vote) => (
+          <Card key={vote.id} className="my-2">
+            <Card.Header>{vote.description}</Card.Header>
+            <Card.Body>
+              {vote.options.map((option, idx) => (
+                <div className="mt-1" key={Math.random() + idx}>
+                  <p>
+                    {option}:{" "}
+                    {(vote.votes[idx] / Math.max(1, vote.totalVotes)) * 100}%
+                  </p>
+                  <div className="d-flex w-100 align-items-center">
+                    <ProgressBar
+                      now={(vote.votes[idx] / Math.max(1, vote.totalVotes)) * 100}
+                      label={`${vote.votes[idx]}`}
+                      className="w-100 me-2"
+                    />
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        votePressed(vote.id, idx);
+                      }}
+                      variant="dark"
+                    >
+                      Vote
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </Card.Body>
-        </Card>
-      ))}
+              ))}
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
