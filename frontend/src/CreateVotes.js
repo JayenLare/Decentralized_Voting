@@ -20,7 +20,7 @@ const CreateVote = ({ contract }) => {
   };
 
   return (
-    <Form className="m-2">
+    <Form className="m-4">
       <h2 className="d-flex justify-content-center">Create Vote</h2>
       <Form.Group className="m-2">
         <label htmlFor="uri">IPFS URI</label>
