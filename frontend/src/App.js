@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Home";
 import CreateVote from "./CreateVotes";
 import Votes from "./Votes";
 import Navbar from "./Navbar";
@@ -65,6 +66,7 @@ function App() {
       />
       <div className="container">
         <Routes>
+        <Route path="" element={<Home contract={contract} />} />
           <Route
             path="create-vote"
             element={<CreateVote contract={contract} />}
