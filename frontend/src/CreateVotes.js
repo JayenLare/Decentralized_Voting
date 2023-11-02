@@ -27,7 +27,7 @@ const CreateVote = ({ contract }) => {
         <Form.Control
           type="text"
           name="uri"
-          placeholder="IPFS URI"
+          placeholder="ipfs/URI"
           value={uri}
           onChange={(e) => setUri(e.target.value)}
         />
