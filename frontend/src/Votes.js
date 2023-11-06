@@ -17,14 +17,14 @@ const Votes = ({ contract }) => {
       .then((result) => {
         setVotesData(result);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => alert("Error: Cannot get vote data"), (error) => console.log(error));
   }, [contract]);
 
   const votePressed = async (id, optionIdx) => {
     await contract
       .vote(id, optionIdx)
-      .then(() => alert("Success"))
-      .catch((error) => alert(error.message));
+      .then(() => alert("Success!"))
+      .catch((error) => alert("Error: Cannot cast vote"), (error) => console.log(error.message));
   };
 
   const setVotesData = async (votes) => {

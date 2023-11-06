@@ -43,17 +43,17 @@ function App() {
 
   const becomeMember = async () => {
     if (!contract) {
-      alert("Please connect to metamask.");
+      alert("Error: Not connected to Metamask");
       return;
     }
 
     await contract
       .join()
       .then(() => {
-        alert("Joined");
+        alert("Welcome!");
         setIsMember(true);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => alert("Error: Unable to become a member"), (error) => console.log(error.message));
   };
 
   return (

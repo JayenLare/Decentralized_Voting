@@ -9,14 +9,14 @@ const CreateVote = ({ contract }) => {
 
   const createVote = async () => {
     if (!contract) {
-      alert("Please connect to Metamask.");
+      alert("Error: Not connected to Metamask");
       return;
     }
 
     await contract
       .createVote(uri, new Date(endDate).getTime(), options)
-      .then(() => alert("Success"))
-      .catch((error) => alert(error.message));
+      .then(() => alert("Success!"))
+      .catch((error) => alert("Error: Cannot create vote"), (error) => console.log(error.message));
   };
 
   return (
