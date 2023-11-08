@@ -7,7 +7,7 @@ const NavbarTop = ({ connect, connected, becomeMember, isMember }) => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="black" variant="dark">
       <Container fluid>
-        <Navbar.Brand href="/">Voting</Navbar.Brand>
+        <Navbar.Brand href="/">Home</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
           <Nav className="me-auto">
