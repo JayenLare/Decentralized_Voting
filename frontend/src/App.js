@@ -4,6 +4,7 @@ import Home from "./Home";
 import CreateVote from "./CreateVotes";
 import Votes from "./Votes";
 import Navbar from "./Navbar";
+import Footer from "./Footer.js";
 import { useState, useEffect } from "react";
 import { connect, getContract } from "./contract";
 
@@ -57,24 +58,27 @@ function App() {
   };
 
   return (
-    <Router>
-      <Navbar
-        connect={connectCallback}
-        connected={connected}
-        becomeMember={becomeMember}
-        isMember={isMember}
-      />
-      <div className="container">
-        <Routes>
-        <Route path="" element={<Home contract={contract} />} />
-          <Route
-            path="create-vote"
-            element={<CreateVote contract={contract} />}
-          />
-          <Route path="votes" element={<Votes contract={contract} />} />
-        </Routes>
-      </div>
-    </Router>
+    <div>
+      <Router>
+        <Navbar
+          connect={connectCallback}
+          connected={connected}
+          becomeMember={becomeMember}
+          isMember={isMember}
+        />
+        <div className="container">
+          <Routes>
+          <Route path="" element={<Home contract={contract} />} />
+            <Route
+              path="create-vote"
+              element={<CreateVote contract={contract} />}
+            />
+            <Route path="votes" element={<Votes contract={contract} />} />
+          </Routes>
+        </div>
+      </Router>
+      <Footer />
+    </div>
   );
 }
 
