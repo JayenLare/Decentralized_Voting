@@ -5,7 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 
 const NavbarTop = ({ connect, connected, becomeMember, isMember }) => {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand="lg" bg="black" variant="dark">
       <Container fluid>
         <Navbar.Brand href="/">Voting</Navbar.Brand>
         <Navbar.Toggle />
