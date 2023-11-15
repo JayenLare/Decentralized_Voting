@@ -13,18 +13,20 @@ const NavbarTop = ({ connect, connected, becomeMember, isMember }) => {
           <Nav className="me-auto">
             <Nav.Link href="/votes">Votes</Nav.Link>
             <Nav.Link href="/create-vote">Create Vote</Nav.Link>
-            {!isMember && (
-              <Button variant="success" onClick={becomeMember}>
-                Become Member
-              </Button>
-            )}
+            <Nav.Link href="/results">Results</Nav.Link>
           </Nav>
           <Nav>
-            {!connected ? (
-              <Button onClick={connect}>Connect to Metamask</Button>
-            ) : (
-              <p style={{ color: "white" }}>Connected to Metamask.</p>
-            )}
+              {!isMember && (
+                <Button variant="success" onClick={becomeMember}>
+                  Become Member
+                </Button>
+              )}
+              <Nav.Link> </Nav.Link>
+              {!connected ? (
+                <Button onClick={connect}>Connect to Metamask</Button>
+              ) : (
+                <h6 style={{margin: "7px", color: "white" }}>Connected to Metamask</h6>
+              )}
           </Nav>
         </Navbar.Collapse>
       </Container>
