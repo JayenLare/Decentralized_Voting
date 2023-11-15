@@ -5,6 +5,7 @@ import CreateVote from "./CreateVotes";
 import Votes from "./Votes";
 import Navbar from "./Navbar";
 import Footer from "./Footer.js";
+import Results from "./Results.js";
 import { useState, useEffect } from "react";
 import { connect, getContract } from "./contract";
 
@@ -74,6 +75,7 @@ function App() {
               element={<CreateVote contract={contract} />}
             />
             <Route path="votes" element={<Votes contract={contract} />} />
+            <Route path="results" element={<Results contract={contract} />} />
           </Routes>
         </div>
       </Router>
