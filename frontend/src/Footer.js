@@ -21,7 +21,7 @@ const Footer = () => {
             <p style={{
                     color: "white",
                     textAlign: "center",
-                    marginBottom: "0px",
+                    marginBottom: "10px",
                 }}>
                 Jayen Lare - jsl19b@fsu.edu
             </p>
