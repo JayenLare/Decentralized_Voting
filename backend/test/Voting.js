@@ -27,6 +27,19 @@ describe("Voting", function () {
     });
   });
 
+  describe("JoinFan", () => {
+    it("Can join as fan", async () => {
+      await expect(voting.joinFan()).to.emit(voting, "FanJoined");
+    });
+    it("Cannot join if already joined as a fan", async () => {
+      await expect(voting.joinFan()).to.be.reverted;
+    });
+    it("Cannot join as a fan if not member", async () => {
+      await expect(
+        voting.connect(addr1).joinFan()).to.be.reverted;
+    });
+  });
+
   describe("Create vote", () => {
     it("Cannot create vote if not member", async () => {
       await expect(

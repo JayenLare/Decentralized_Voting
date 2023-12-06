@@ -16,7 +16,13 @@ contract Voting {
     mapping(uint256 => Vote) votes;
     mapping(address => bool) public members;
 
+    mapping(address => bool) public media;
+    mapping(address => bool) public winners;
+    mapping(address => bool) public fans;
+
     event MemberJoined(address indexed member, uint256 joinedAt);
+    event FanJoined(address indexed fan, uint256 joinedAt);
+
     event VoteCreated(
         address indexed owner,
         uint256 indexed voteId,
@@ -47,6 +53,12 @@ contract Voting {
         require(!members[msg.sender], "you are already a member");
         members[msg.sender] = true;
         emit MemberJoined(msg.sender, block.timestamp);
+    }
+
+    function joinFan() external isMember {
+        require(!fans[msg.sender], "you are already a fan");
+        fans[msg.sender] = true;
+        emit FanJoined(msg.sender, block.timestamp);
     }
 
     function createVote(
