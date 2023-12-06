@@ -27,6 +27,32 @@ describe("Voting", function () {
     });
   });
 
+  describe("JoinMedia", () => {
+    it("Can join as media member", async () => {
+      await expect(voting.joinMedia()).to.emit(voting, "MediaJoined");
+    });
+    it("Cannot join if already joined as a media member", async () => {
+      await expect(voting.joinMedia()).to.be.reverted;
+    });
+    it("Cannot join as a media member if not member", async () => {
+      await expect(
+        voting.connect(addr1).joinMedia()).to.be.reverted;
+    });
+  });
+
+  describe("JoinWinner", () => {
+    it("Can join as previous winner", async () => {
+      await expect(voting.joinWinner()).to.emit(voting, "WinnerJoined");
+    });
+    it("Cannot join if already joined as a previous winner", async () => {
+      await expect(voting.joinWinner()).to.be.reverted;
+    });
+    it("Cannot join as a previous winner if not member", async () => {
+      await expect(
+        voting.connect(addr1).joinWinner()).to.be.reverted;
+    });
+  });
+
   describe("JoinFan", () => {
     it("Can join as fan", async () => {
       await expect(voting.joinFan()).to.emit(voting, "FanJoined");

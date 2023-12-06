@@ -15,12 +15,13 @@ contract Voting {
 
     mapping(uint256 => Vote) votes;
     mapping(address => bool) public members;
-
     mapping(address => bool) public media;
     mapping(address => bool) public winners;
     mapping(address => bool) public fans;
 
     event MemberJoined(address indexed member, uint256 joinedAt);
+    event MediaJoined(address indexed media, uint256 joinedAt);
+    event WinnerJoined(address indexed winner, uint256 joinedAt);
     event FanJoined(address indexed fan, uint256 joinedAt);
 
     event VoteCreated(
@@ -55,8 +56,20 @@ contract Voting {
         emit MemberJoined(msg.sender, block.timestamp);
     }
 
+    function joinMedia() external isMember {
+        require(!media[msg.sender], "you have already joined as a media member");
+        media[msg.sender] = true;
+        emit MediaJoined(msg.sender, block.timestamp);
+    }
+
+    function joinWinner() external isMember {
+        require(!winners[msg.sender], "you have already joined as a previous winner");
+        winners[msg.sender] = true;
+        emit WinnerJoined(msg.sender, block.timestamp);
+    }
+
     function joinFan() external isMember {
-        require(!fans[msg.sender], "you are already a fan");
+        require(!fans[msg.sender], "you have already joined as a fan");
         fans[msg.sender] = true;
         emit FanJoined(msg.sender, block.timestamp);
     }
