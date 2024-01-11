@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 contract Voting {
     uint256 nextVoteId;
+    uint256 nextBallotId;
 
     struct Vote {
         string uri;
@@ -13,7 +14,18 @@ contract Voting {
         uint256 options;
     }
 
+    struct Ballot {
+        string uri;
+        address owner;
+        uint256 endDate;    // Dec 4th
+        uint256[] ballots;
+        mapping(address => bool) ballotCast;
+        uint256 choices;    // 3
+    }
+
     mapping(uint256 => Vote) votes;
+    mapping(uint256 => Ballot) ballots;
+
     mapping(address => bool) public members;
     mapping(address => bool) public media;
     mapping(address => bool) public winners;
@@ -37,6 +49,20 @@ contract Voting {
         uint256 createdAt
     );
 
+    event BallotCreated(
+        address indexed owner,
+        uint256 indexed ballotId,
+        uint256 indexed createdAt,
+        uint256 endDate
+    );
+
+    event BallotCast(
+        address indexed voter,
+        uint256 indexed ballotId,
+        uint256 indexed choices,
+        uint256 createdAt
+    );
+
     modifier isMember() {
         require(members[msg.sender], "you are not a member");
         _;
@@ -47,6 +73,14 @@ contract Voting {
         require(option < votes[voteId].options, "invalid option");
         require(!votes[voteId].voted[msg.sender], "you have already voted");
         require(block.timestamp <= votes[voteId].endTime, "vote has ended");
+        _;
+    }
+
+    modifier canCastBallot(uint256 ballotId, uint256 choices) {
+        require(ballotId < nextBallotId, "vote does not exist");
+        require(choices < ballots[ballotId].choices, "invalid option");
+        require(!ballots[ballotId].ballotCast[msg.sender], "you have already voted");
+        require(block.timestamp <= ballots[ballotId].endDate, "vote has ended");
         _;
     }
 
@@ -130,5 +164,37 @@ contract Voting {
         returns (bool)
     {
         return votes[voteId].voted[member];
+    }
+
+    function createBallot(
+        string memory uri,
+        uint256 endDate,
+        uint256 choices
+    ) external isMember {
+        require(
+            choices == 3,
+            "must submit 3 players per ballot"
+        );
+        require(endDate > block.timestamp, "end time cannot be in past");
+        uint256 ballotId = nextBallotId;
+
+        ballots[ballotId].uri = uri;
+        ballots[ballotId].owner = msg.sender;
+        ballots[ballotId].endDate = endDate;
+        ballots[ballotId].choices = choices;
+        ballots[ballotId].ballots = new uint256[](choices);
+
+        emit BallotCreated(msg.sender, ballotId, block.timestamp, endDate);
+        nextBallotId++;
+    }
+
+    function castBallot(uint256 ballotId, uint256 choices) 
+        external isMember canCastBallot(ballotId, choices) {
+        ballots[ballotId].ballots[0] = ballots[ballotId].ballots[0] + 3;    // first choice
+        ballots[ballotId].ballots[1] = ballots[ballotId].ballots[1] + 2;    // second choice
+        ballots[ballotId].ballots[2] = ballots[ballotId].ballots[2] + 1;    // third choice
+        ballots[ballotId].ballotCast[msg.sender] = true;
+
+        emit BallotCast(msg.sender, ballotId, choices, block.timestamp);
     }
 }

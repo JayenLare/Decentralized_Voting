@@ -9,10 +9,11 @@ const getTime = async () => {
 describe("Voting", function () {
   let addr0;
   let addr1;
+  let addr2;
   let voting;
 
   before(async () => {
-    [addr0, addr1] = await ethers.getSigners();
+    [addr0, addr1, addr2] = await ethers.getSigners();
 
     const Voting = await ethers.getContractFactory("Voting");
     voting = await Voting.deploy({});
@@ -118,6 +119,53 @@ describe("Voting", function () {
       await voting.connect(addr1).join();
       await ethers.provider.send("evm_mine", [(await getTime()) + 3600]);
       await expect(voting.connect(addr1).vote(0, 0)).to.be.reverted;
+    });
+  });
+
+  describe("CreateBallot", () => {
+    it("Cannot create ballot if not a member", async () => {
+      await expect(
+        voting.connect(addr2).createBallot("", (await getTime()) + 60, 3)
+      ).to.be.reverted;
+    });
+    it("Cannot create ballot with invalid end time", async () => {
+      await expect(voting.createBallot("", (await getTime()) - 60, 3)).to.be.reverted;
+    });
+    it("Cannot create ballot with more than 3 choices", async () => {
+      await expect(voting.createBallot("", (await getTime()) + 60, 4)).to.be.reverted;
+    });
+    it("Cannot create ballot with less than 3 choices", async () => {
+      await expect(voting.createBallot("", (await getTime()) + 60, 2)).to.be.reverted;
+    });
+    it("Can create ballot", async () => {
+      await expect(voting.createBallot("1", (await getTime()) + 60, 3)).to.emit(
+        voting,"BallotCreated");
+    });
+    it("Cannot create a 2nd ballot", async () => {
+      await expect(voting.createBallot("2", (await getTime()) + 60, 3)).to.be.reverted;
+    });
+  });
+
+  describe("CastBallot", () => {
+    it("Cannot cast ballot if not member", async () => {
+      await expect(voting.connect(addr2).castBallot(0, 0)).to.be.reverted;
+    });
+    it("Cannot cast ballot that doesn't exist", async () => {
+      await expect(voting.castBallot(2, 0)).to.be.reverted;
+    });
+    it("Cannot cast invalid ballot", async () => {
+      await expect(voting.castBallot(0, 4)).to.be.reverted;
+    });
+    it("Can cast ballot", async () => {
+      await expect(voting.castBallot(0, 0)).to.emit(voting, "BallotCast");
+    });
+    it("Cannot cast ballot twice", async () => {
+      await expect(voting.castBallot(0, 1)).to.be.reverted;
+    });
+    it("Cannot vote on expired vote", async () => {
+      await voting.connect(addr2).join();
+      await ethers.provider.send("evm_mine", [(await getTime()) + 3600]);
+      await expect(voting.connect(addr2).castBallot(0, 0)).to.be.reverted;
     });
   });
 });
