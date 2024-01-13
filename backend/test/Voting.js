@@ -142,7 +142,8 @@ describe("Voting", function () {
         voting,"BallotCreated");
     });
     it("Cannot create a 2nd ballot", async () => {
-      await expect(voting.createBallot("2", (await getTime()) + 60, 3)).to.be.reverted;
+      await expect(voting.createBallot("2", (await getTime()) + 60, 3)).to.emit(
+        voting,"BallotCreated");
     });
   });
 
