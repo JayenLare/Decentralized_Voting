@@ -2,6 +2,8 @@ import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const NavbarTop = ({ connect, connected, becomeMember, isMember }) => {
   return (
@@ -16,17 +18,19 @@ const NavbarTop = ({ connect, connected, becomeMember, isMember }) => {
             <Nav.Link href="/results">Results</Nav.Link>
           </Nav>
           <Nav>
-              {!isMember && (
-                <Button variant="success" onClick={becomeMember}>
-                  Become Member
-                </Button>
-              )}
-              <Nav.Link> </Nav.Link>
-              {!connected ? (
-                <Button onClick={connect}>Connect to Metamask</Button>
-              ) : (
-                <h6 style={{margin: "7px", color: "white" }}>Connected to Metamask</h6>
-              )}
+            {!isMember && (
+            <DropdownButton id="dropdown-item-button" variant="success" title="Become Member">
+              <Dropdown.Item as="button" onClick={becomeMember}>Fan</Dropdown.Item>
+              <Dropdown.Item as="button" onClick={becomeMember}>Media</Dropdown.Item>
+              <Dropdown.Item as="button" onClick={becomeMember}>Previous Winner</Dropdown.Item>
+            </DropdownButton>
+            )}
+            <Nav.Link> </Nav.Link>
+            {!connected ? (
+              <Button onClick={connect}>Connect to Metamask</Button>
+            ) : (
+              <h6 style={{margin: "7px", color: "white" }}>Connected to Metamask</h6>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
