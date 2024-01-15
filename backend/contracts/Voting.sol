@@ -68,6 +68,14 @@ contract Voting {
         _;
     }
 
+    modifier isNotMember() {
+        //require(!members[msg.sender], "you are not a member");
+        require(!media[msg.sender], "you have already joined as a media member");
+        require(!winners[msg.sender], "you have already joined as a previous winner");
+        require(!fans[msg.sender], "you have already joined as a fan");
+        _;
+    }
+
     modifier canVote(uint256 voteId, uint256 option) {
         require(voteId < nextVoteId, "vote does not exist");
         require(option < votes[voteId].options, "invalid option");
@@ -90,20 +98,20 @@ contract Voting {
         emit MemberJoined(msg.sender, block.timestamp);
     }
 
-    function joinMedia() external isMember {
-        require(!media[msg.sender], "you have already joined as a media member");
+    function joinMedia() external isNotMember{
+        //require(!media[msg.sender], "you have already joined as a media member");
         media[msg.sender] = true;
         emit MediaJoined(msg.sender, block.timestamp);
     }
 
-    function joinWinner() external isMember {
-        require(!winners[msg.sender], "you have already joined as a previous winner");
+    function joinWinner() external isNotMember{
+        //require(!winners[msg.sender], "you have already joined as a previous winner");
         winners[msg.sender] = true;
         emit WinnerJoined(msg.sender, block.timestamp);
     }
 
-    function joinFan() external isMember {
-        require(!fans[msg.sender], "you have already joined as a fan");
+    function joinFan() external isNotMember{
+        //require(!fans[msg.sender], "you have already joined as a fan");
         fans[msg.sender] = true;
         emit FanJoined(msg.sender, block.timestamp);
     }

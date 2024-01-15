@@ -58,6 +58,51 @@ function App() {
       .catch((error) => alert("Error: Unable to become a member"), (error) => console.log(error.message));
   };
 
+  const joinAsFan = async () => {
+    if (!contract) {
+      alert("Error: Not connected to Metamask");
+      return;
+    }
+
+    await contract
+      .joinFan()
+      .then(() => {
+        alert("Welcome new member! You have joined as a fan.");
+        setIsMember(true);
+      })
+      .catch((error) => alert("Error: Unable to become a member"), (error) => console.log(error.message));
+  };
+
+  const joinAsMedia = async () => {
+    if (!contract) {
+      alert("Error: Not connected to Metamask");
+      return;
+    }
+
+    await contract
+      .joinMedia()
+      .then(() => {
+        alert("Welcome new member! You have joined as media.");
+        setIsMember(true);
+      })
+      .catch((error) => alert("Error: Unable to become a member"), (error) => console.log(error.message));
+  };
+
+  const joinAsWinner = async () => {
+    if (!contract) {
+      alert("Error: Not connected to Metamask");
+      return;
+    }
+
+    await contract
+      .joinWinner()
+      .then(() => {
+        alert("Welcome new member! You have joined as a previous winner.");
+        setIsMember(true);
+      })
+      .catch((error) => alert("Error: Unable to become a member"), (error) => console.log(error.message));
+  };
+
   return (
     <div>
       <Router>
@@ -65,6 +110,9 @@ function App() {
           connect={connectCallback}
           connected={connected}
           becomeMember={becomeMember}
+          joinAsFan={joinAsFan}
+          joinAsMedia={joinAsMedia}
+          joinAsWinner={joinAsWinner}
           isMember={isMember}
         />
         <div className="container">

@@ -5,7 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-const NavbarTop = ({ connect, connected, becomeMember, isMember }) => {
+const NavbarTop = ({ connect, connected, becomeMember, joinAsFan, joinAsMedia, joinAsWinner, isMember }) => {
   return (
     <Navbar collapseOnSelect expand="lg" bg="black" variant="dark">
       <Container fluid>
@@ -20,9 +20,9 @@ const NavbarTop = ({ connect, connected, becomeMember, isMember }) => {
           <Nav>
             {!isMember && (
             <DropdownButton id="dropdown-item-button" variant="success" title="Become Member">
-              <Dropdown.Item as="button" onClick={becomeMember}>Fan</Dropdown.Item>
-              <Dropdown.Item as="button" onClick={becomeMember}>Media</Dropdown.Item>
-              <Dropdown.Item as="button" onClick={becomeMember}>Previous Winner</Dropdown.Item>
+              <Dropdown.Item as="button" onClick={joinAsFan}>Fan</Dropdown.Item>
+              <Dropdown.Item as="button" onClick={joinAsMedia}>Media</Dropdown.Item>
+              <Dropdown.Item as="button" onClick={joinAsWinner}>Previous Winner</Dropdown.Item>
             </DropdownButton>
             )}
             <Nav.Link> </Nav.Link>
