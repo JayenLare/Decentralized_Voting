@@ -69,7 +69,7 @@ contract Voting {
     }
 
     modifier isNotMember() {
-        //require(!members[msg.sender], "you are not a member");
+        //require(!members[msg.sender], "you are already a member");
         require(!media[msg.sender], "you have already joined as a media member");
         require(!winners[msg.sender], "you have already joined as a previous winner");
         require(!fans[msg.sender], "you have already joined as a fan");
@@ -92,7 +92,7 @@ contract Voting {
         _;
     }
 
-    function join() external {
+    function join() public {
         require(!members[msg.sender], "you are already a member");
         members[msg.sender] = true;
         emit MemberJoined(msg.sender, block.timestamp);
@@ -101,18 +101,21 @@ contract Voting {
     function joinMedia() external isNotMember{
         //require(!media[msg.sender], "you have already joined as a media member");
         media[msg.sender] = true;
+        //join(msg.sender);
         emit MediaJoined(msg.sender, block.timestamp);
     }
 
     function joinWinner() external isNotMember{
         //require(!winners[msg.sender], "you have already joined as a previous winner");
         winners[msg.sender] = true;
+        //join(msg.sender);
         emit WinnerJoined(msg.sender, block.timestamp);
     }
 
     function joinFan() external isNotMember{
         //require(!fans[msg.sender], "you have already joined as a fan");
         fans[msg.sender] = true;
+        //join(msg.sender);
         emit FanJoined(msg.sender, block.timestamp);
     }
 

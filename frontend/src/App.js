@@ -48,7 +48,7 @@ function App() {
       alert("Error: Not connected to Metamask");
       return;
     }
-
+    
     await contract
       .join()
       .then(() => {
