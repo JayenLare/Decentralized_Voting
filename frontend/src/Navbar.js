@@ -18,15 +18,14 @@ const NavbarTop = ({ connect, connected, becomeMember, joinAsFan, joinAsMedia, j
             <Nav.Link href="/results">Results</Nav.Link>
           </Nav>
           <Nav>
-            {!isMember && connected &&(
-            <DropdownButton id="dropdown-item-button" variant="success" title="Become Member">
-              <Dropdown.Item as="button" onClick={becomeMember}>Fan</Dropdown.Item>
-              <Dropdown.Item as="button" onClick={becomeMember}>Media</Dropdown.Item>
-              <Dropdown.Item as="button" onClick={becomeMember}>Previous Winner</Dropdown.Item>
-            </DropdownButton>
-            )}
-            {!connected && (
+            {!connected ? (
               <Button onClick={connect}>Connect to Metamask</Button>
+            ) : (
+              <DropdownButton id="dropdown-item-button" variant="success" title="Membership Options">
+                <Dropdown.Item as="button" onClick={joinAsFan}>Fan</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={joinAsMedia}>Media</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={joinAsWinner}>Previous Winner</Dropdown.Item>
+              </DropdownButton>
             )}
           </Nav>
         </Navbar.Collapse>
@@ -36,3 +35,14 @@ const NavbarTop = ({ connect, connected, becomeMember, joinAsFan, joinAsMedia, j
 };
 
 export default NavbarTop;
+
+
+/*
+{!isMember && connected &&(
+  <DropdownButton id="dropdown-item-button" variant="success" title="Become Member">
+    <Dropdown.Item as="button" onClick={becomeMember}>Fan</Dropdown.Item>
+    <Dropdown.Item as="button" onClick={becomeMember}>Media</Dropdown.Item>
+    <Dropdown.Item as="button" onClick={becomeMember}>Previous Winner</Dropdown.Item>
+  </DropdownButton>
+  )}
+  */

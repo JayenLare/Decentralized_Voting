@@ -43,6 +43,7 @@ function App() {
     }
   };
 
+  /*
   const becomeMember = async () => {
     if (!contract) {
       alert("Error: Not connected to Metamask");
@@ -56,21 +57,26 @@ function App() {
         setIsMember(true);
       })
       .catch((error) => alert("Error: Unable to become a member"), (error) => console.log(error.message));
-  };
+  }; 
+  */
 
   const joinAsFan = async () => {
     if (!contract) {
       alert("Error: Not connected to Metamask");
       return;
     }
+    if (isMember) {
+      alert("Error: You are already a Heisman voting member");
+      return;
+    }
 
     await contract
       .joinFan()
       .then(() => {
-        alert("Welcome new member! You have joined as a fan.");
+        alert("Welcome new member! You have joined as a fan");
         setIsMember(true);
       })
-      .catch((error) => alert("Error: Unable to become a member"), (error) => console.log(error.message));
+      .catch((error) => alert("Error: Unable to become a Heisman voting member"), (error) => console.log(error.message));
   };
 
   const joinAsMedia = async () => {
@@ -78,14 +84,18 @@ function App() {
       alert("Error: Not connected to Metamask");
       return;
     }
+    if (isMember) {
+      alert("Error: You are already a Heisman voting member");
+      return;
+    }
 
     await contract
       .joinMedia()
       .then(() => {
-        alert("Welcome new member! You have joined as media.");
+        alert("Welcome new member! You have joined as media");
         setIsMember(true);
       })
-      .catch((error) => alert("Error: Unable to become a member"), (error) => console.log(error.message));
+      .catch((error) => alert("Error: Unable to become a Heisman voting member"), (error) => console.log(error.message));
   };
 
   const joinAsWinner = async () => {
@@ -93,14 +103,18 @@ function App() {
       alert("Error: Not connected to Metamask");
       return;
     }
+    if (isMember) {
+      alert("Error: You are already a Heisman voting member");
+      return;
+    }
 
     await contract
       .joinWinner()
       .then(() => {
-        alert("Welcome new member! You have joined as a previous winner.");
+        alert("Welcome new member! You have joined as a previous winner");
         setIsMember(true);
       })
-      .catch((error) => alert("Error: Unable to become a member"), (error) => console.log(error.message));
+      .catch((error) => alert("Error: Unable to become a Heisman voting member"), (error) => console.log(error.message));
   };
 
   return (
@@ -109,7 +123,7 @@ function App() {
         <Navbar
           connect={connectCallback}
           connected={connected}
-          becomeMember={becomeMember}
+          //becomeMember={becomeMember}
           joinAsFan={joinAsFan}
           joinAsMedia={joinAsMedia}
           joinAsWinner={joinAsWinner}
