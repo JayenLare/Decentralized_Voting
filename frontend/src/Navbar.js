@@ -16,6 +16,7 @@ const NavbarTop = ({ connect, connected, becomeMember, joinAsFan, joinAsMedia, j
             <Nav.Link href="/votes">Votes</Nav.Link>
             <Nav.Link href="/create-vote">Create Vote</Nav.Link>
             <Nav.Link href="/results">Results</Nav.Link>
+            <Nav.Link href="/ceremony">Ceremony</Nav.Link>
           </Nav>
           <Nav>
             {!connected ? (
