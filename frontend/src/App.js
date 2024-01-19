@@ -9,6 +9,7 @@ import Results from "./Results.js";
 import { useState, useEffect } from "react";
 import { connect, getContract } from "./contract";
 import Ceremony from "./Ceremony.js";
+import Info from "./Info.js";
 
 function App() {
   const [contract, setContract] = useState(null);
@@ -140,6 +141,7 @@ function App() {
             <Route path="votes" element={<Votes contract={contract} />} />
             <Route path="results" element={<Results contract={contract} />} />
             <Route path="ceremony" element={<Ceremony contract={contract} />} />
+            <Route path="info" element={<Info contract={contract} />} />
           </Routes>
         </div>
       </Router>
