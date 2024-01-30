@@ -10,10 +10,12 @@ describe("Voting", function () {
   let addr0;
   let addr1;
   let addr2;
+  let addr3;
+  let addr4;
   let voting;
 
   before(async () => {
-    [addr0, addr1, addr2] = await ethers.getSigners();
+    [addr0, addr1, addr2, addr3, addr4] = await ethers.getSigners();
 
     const Voting = await ethers.getContractFactory("Voting");
     voting = await Voting.deploy({});
@@ -35,35 +37,23 @@ describe("Voting", function () {
     it("Cannot join if already joined as a media member", async () => {
       await expect(voting.joinMedia()).to.be.reverted;
     });
-    it("Cannot join as a media member if not member", async () => {
-      await expect(
-        voting.connect(addr1).joinMedia()).to.be.reverted;
-    });
   });
 
   describe("JoinWinner", () => {
     it("Can join as previous winner", async () => {
-      await expect(voting.joinWinner()).to.emit(voting, "WinnerJoined");
+      await expect(voting.connect(addr3).joinWinner()).to.emit(voting, "WinnerJoined");
     });
-    it("Cannot join if already joined as a previous winner", async () => {
+    it("Cannot join if already joined as a member", async () => {
       await expect(voting.joinWinner()).to.be.reverted;
-    });
-    it("Cannot join as a previous winner if not member", async () => {
-      await expect(
-        voting.connect(addr1).joinWinner()).to.be.reverted;
     });
   });
 
   describe("JoinFan", () => {
     it("Can join as fan", async () => {
-      await expect(voting.joinFan()).to.emit(voting, "FanJoined");
+      await expect(voting.connect(addr4).joinFan()).to.emit(voting, "FanJoined");
     });
-    it("Cannot join if already joined as a fan", async () => {
+    it("Cannot join if already joined as a member", async () => {
       await expect(voting.joinFan()).to.be.reverted;
-    });
-    it("Cannot join as a fan if not member", async () => {
-      await expect(
-        voting.connect(addr1).joinFan()).to.be.reverted;
     });
   });
 
