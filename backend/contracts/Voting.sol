@@ -63,8 +63,13 @@ contract Voting {
         uint256 createdAt
     );
 
+    modifier isFan() {
+        require(fans[msg.sender], "you are not a fan member");
+        _;
+    }
+
     modifier isMember() {
-        require(members[msg.sender], "you are not a member");
+        require(media[msg.sender] || winners[msg.sender] || fans[msg.sender], "you are not a member");
         _;
     }
 
@@ -136,7 +141,7 @@ contract Voting {
 
     function vote(uint256 voteId, uint256 option)
         external
-        isMember
+        isFan
         canVote(voteId, option)
     {
         votes[voteId].votes[option] = votes[voteId].votes[option] + 1;

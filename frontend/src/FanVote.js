@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
-const Votes = ({ contract }) => {
+const FanVote = ({ contract }) => {
   const gateway = "https://gateway.pinata.cloud/";
   const [votes, setVotes] = useState([]);
 
@@ -108,4 +108,4 @@ const Votes = ({ contract }) => {
   );
 };
 
-export default Votes;
+export default FanVote;

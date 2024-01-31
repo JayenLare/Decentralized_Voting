@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import CreateVote from "./CreateVotes";
 import Votes from "./Votes";
+import FanVote from "./FanVote.js";
 import Navbar from "./Navbar";
 import Footer from "./Footer.js";
 import Results from "./Results.js";
@@ -139,6 +140,7 @@ function App() {
               element={<CreateVote contract={contract} />}
             />
             <Route path="votes" element={<Votes contract={contract} />} />
+            <Route path="fan-vote" element={<FanVote contract={contract} />} />
             <Route path="results" element={<Results contract={contract} />} />
             <Route path="ceremony" element={<Ceremony contract={contract} />} />
             <Route path="info" element={<Info contract={contract} />} />
