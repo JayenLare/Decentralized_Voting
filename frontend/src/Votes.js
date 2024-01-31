@@ -70,7 +70,7 @@ const Votes = ({ contract }) => {
 
   return (
     <div className="m-4">
-      <h2 className="d-flex justify-content-center">Fan Vote</h2>
+      <h2 className="d-flex justify-content-center">Votes</h2>
       <div className="m-4">
         {votes.map((vote) => (
           <Card key={vote.id} className="my-2">

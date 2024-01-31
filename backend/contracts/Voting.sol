@@ -64,7 +64,7 @@ contract Voting {
     );
 
     modifier isFan() {
-        require(fans[msg.sender], "you are not a fan member");
+        require(fans[msg.sender], "you are not a fan");
         _;
     }
 

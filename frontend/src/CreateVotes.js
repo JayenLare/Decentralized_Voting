@@ -3,9 +3,9 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 
 const CreateVote = ({ contract }) => {
-  const [uri, setUri] = useState("");
-  const [options, setOptions] = useState(2);
-  const [endDate, setEndDate] = useState("");
+  const [uri, setUri] = useState("ipfs/QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4");
+  const [options, setOptions] = useState(5);
+  const [endDate, setEndDate] = useState("02/05/2024");
 
   const createVote = async () => {
     if (!contract) {
