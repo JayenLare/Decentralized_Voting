@@ -37,14 +37,3 @@ const NavbarTop = ({ connect, connected, becomeMember, joinAsFan, joinAsMedia, j
 };
 
 export default NavbarTop;
-
-
-/*
-{!isMember && connected &&(
-  <DropdownButton id="dropdown-item-button" variant="success" title="Become Member">
-    <Dropdown.Item as="button" onClick={becomeMember}>Fan</Dropdown.Item>
-    <Dropdown.Item as="button" onClick={becomeMember}>Media</Dropdown.Item>
-    <Dropdown.Item as="button" onClick={becomeMember}>Previous Winner</Dropdown.Item>
-  </DropdownButton>
-  )}
-  */
