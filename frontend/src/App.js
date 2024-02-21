@@ -2,7 +2,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import CreateVote from "./CreateVotes";
-import Votes from "./Votes";
 import FanVote from "./FanVote.js";
 import Navbar from "./Navbar";
 import Footer from "./Footer.js";
@@ -165,7 +164,6 @@ function App() {
               path="create-vote"
               element={<CreateVote contract={contract} />}
             />
-            <Route path="votes" element={<Votes />} />
             <Route path="fan-vote" element={<FanVote contract={contract} clicked={clicked} createVote={createVote}/>} />
             <Route path="results" element={<Results contract={contract} />} />
             <Route path="ceremony" element={<Ceremony contract={contract} />} />
