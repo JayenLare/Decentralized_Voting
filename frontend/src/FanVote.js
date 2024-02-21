@@ -4,9 +4,13 @@ import { Button } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
-const FanVote = ({ contract }) => {
+const Votes = ({ contract, clicked, createVote }) => {
   const gateway = "https://gateway.pinata.cloud/";
   const [votes, setVotes] = useState([]);
+  const [uri, setUri] = useState("ipfs/QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4");
+  const [options, setOptions] = useState(5);
+  const [endDate, setEndDate] = useState("02/05/2024");
+  //const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
     if (!contract) return;
@@ -19,6 +23,7 @@ const FanVote = ({ contract }) => {
       })
       .catch((error) => alert("Error: Cannot get vote data"), (error) => console.log(error));
   }, [contract]);
+
 
   const votePressed = async (id, optionIdx) => {
     await contract
@@ -71,6 +76,13 @@ const FanVote = ({ contract }) => {
   return (
     <div className="m-4">
       <h2 className="d-flex justify-content-center">Fan Vote</h2>
+      {!clicked ? (
+        <Button variant="success" onClick={createVote}>
+            Load Fan Vote
+        </Button>
+      ) : (
+        <p>Fan vote has been successfully loaded</p>
+      )}
       <div className="m-4">
         {votes.map((vote) => (
           <Card key={vote.id} className="my-2">
@@ -108,4 +120,4 @@ const FanVote = ({ contract }) => {
   );
 };
 
-export default FanVote;
+export default Votes;

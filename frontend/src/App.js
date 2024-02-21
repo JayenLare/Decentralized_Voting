@@ -16,6 +16,11 @@ function App() {
   const [contract, setContract] = useState(null);
   const [connected, setConnected] = useState(false);
   const [isMember, setIsMember] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  const [uri, setUri] = useState("ipfs/QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4");
+  const [options, setOptions] = useState(5);
+  const [endDate, setEndDate] = useState("02/05/2024");
 
   useEffect(() => {
     window.ethereum.request({ method: "eth_accounts" }).then((accounts) => {
@@ -34,6 +39,11 @@ function App() {
         signer.getAddress().then((address) => {
           contract.members(address).then((result) => setIsMember(result));
         });
+        // if (contract.loadFanVoteClicked() == true){
+        //   setClicked(true);
+        // }         
+        contract.loadFanVoteClicked().then((flag) => setClicked(flag));
+        //createVote();
       }
     });
   };
@@ -44,6 +54,21 @@ function App() {
     if (contract) {
       setConnected(true);
     }
+  };
+
+  const createVote = async () => {
+    if (!contract) {
+      alert("Error: Not connected to Metamask");
+      return;
+    }
+
+    await contract
+      .createVote(uri, new Date(endDate).getTime(), options)
+      .then(() => {
+        alert("Success!");
+        setClicked(true);
+      })
+      .catch((error) => alert("Error: Cannot create vote"), (error) => console.log(error.message));
   };
 
   /*
@@ -131,6 +156,7 @@ function App() {
           joinAsMedia={joinAsMedia}
           joinAsWinner={joinAsWinner}
           isMember={isMember}
+          //clicked={clicked}
         />
         <div className="container">
           <Routes>
@@ -139,8 +165,8 @@ function App() {
               path="create-vote"
               element={<CreateVote contract={contract} />}
             />
-            <Route path="votes" element={<Votes contract={contract} />} />
-            <Route path="fan-vote" element={<FanVote contract={contract} />} />
+            <Route path="votes" element={<Votes />} />
+            <Route path="fan-vote" element={<FanVote contract={contract} clicked={clicked} createVote={createVote}/>} />
             <Route path="results" element={<Results contract={contract} />} />
             <Route path="ceremony" element={<Ceremony contract={contract} />} />
             <Route path="info" element={<Info contract={contract} />} />

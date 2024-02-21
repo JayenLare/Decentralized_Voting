@@ -23,6 +23,10 @@ contract Voting {
         uint256 choices;    // 3
     }
 
+    Vote fanVote;
+
+    bool public loadFanVoteClicked = false;
+
     mapping(uint256 => Vote) votes;
     mapping(uint256 => Ballot) ballots;
 
@@ -42,6 +46,18 @@ contract Voting {
         uint256 indexed createdAt,
         uint256 endTime
     );
+
+    event FanVoteLoaded(
+        address indexed owner,
+        uint256 indexed createdAt
+    );
+
+    event FanVoted(
+        address indexed voter,
+        uint256 indexed option,
+        uint256 createdAt
+    );
+
     event Voted(
         address indexed voter,
         uint256 indexed voteId,
@@ -135,8 +151,29 @@ contract Voting {
         votes[voteId].options = options;
         votes[voteId].votes = new uint256[](options);
 
+        loadFanVoteClicked = true;
+
         emit VoteCreated(msg.sender, voteId, block.timestamp, endTime);
         nextVoteId++;
+    }
+
+    function loadFanVote() external {
+        fanVote.uri = "QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4";
+        fanVote.options = 5;
+        // fanVote.endTime = 
+        fanVote.votes = new uint256[](5);
+        fanVote.owner = msg.sender;
+        emit FanVoteLoaded(msg.sender, block.timestamp);
+    }
+
+    function fanVotes(uint256 option)
+        external
+        isFan
+        //canVote(voteId, option)
+    {
+        fanVote.votes[option] = fanVote.votes[option] + 1;
+        fanVote.voted[msg.sender] = true;
+        emit FanVoted(msg.sender, option, block.timestamp);
     }
 
     function vote(uint256 voteId, uint256 option)
@@ -147,6 +184,24 @@ contract Voting {
         votes[voteId].votes[option] = votes[voteId].votes[option] + 1;
         votes[voteId].voted[msg.sender] = true;
         emit Voted(msg.sender, voteId, option, block.timestamp);
+    }
+
+    function getFanVote()
+        public
+        view
+        returns (
+            string memory,
+            address,
+            uint256[] memory,
+            uint256
+        )
+    {
+        return (
+            fanVote.uri,
+            fanVote.owner,
+            fanVote.votes,
+            fanVote.endTime
+        );
     }
 
     function getVote(uint256 voteId)
