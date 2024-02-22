@@ -10,7 +10,6 @@ const Votes = ({ contract, clicked, createVote }) => {
   const [uri, setUri] = useState("ipfs/QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4");
   const [options, setOptions] = useState(5);
   const [endDate, setEndDate] = useState("02/05/2024");
-  //const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
     if (!contract) return;
@@ -75,14 +74,25 @@ const Votes = ({ contract, clicked, createVote }) => {
 
   return (
     <div className="m-4">
-      <h2 className="d-flex justify-content-center">Fan Vote</h2>
+      <h1 style={{textAlign: "center", marginTop: "-5px"}}>Fan Vote</h1>
+      <hr/>
+      <h5 style={{textAlign: "center", marginTop: "15px"}}>Here fans can vote for their favorite Heisman candidate</h5>
+      <p style={{textAlign: "center", marginTop: "5px", marginRight: "250px", marginLeft: "250px",}}> 
+      Fans get the choice of any of the current top 10 Heisman candidates. When voting is complete,
+      the top 3 in the fan vote poll count towards one Heisman ballot. All members can view the fan poll, but only fans can cast a vote.
+      </p>
+      <div style={{textAlign: "center", marginTop: "-5px"}}>
       {!clicked ? (
-        <Button variant="success" onClick={createVote}>
-            Load Fan Vote
-        </Button>
+        <div>
+          <h6 style={{marginBottom: "15px"}}>~To access the fan voting poll please click the button below~</h6>
+          <Button variant="primary" onClick={createVote}>
+              Load Fan Vote
+          </Button>
+        </div>
       ) : (
-        <p>Fan vote has been successfully loaded</p>
+        <h6>~The fan vote poll has been successfully loaded~</h6>
       )}
+      </div>
       <div className="m-4">
         {votes.map((vote) => (
           <Card key={vote.id} className="my-2">

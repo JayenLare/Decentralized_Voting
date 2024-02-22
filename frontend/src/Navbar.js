@@ -23,7 +23,7 @@ const NavbarTop = ({ connect, connected, becomeMember, joinAsFan, joinAsMedia, j
             {!connected ? (
               <Button onClick={connect}>Connect to Metamask</Button>
             ) : (
-              <DropdownButton id="dropdown-item-button" variant="success" title="Membership Options">
+              <DropdownButton id="dropdown-item-button" variant="primary" title="Membership Options">
                 <Dropdown.Item as="button" onClick={joinAsFan}>Fan</Dropdown.Item>
                 <Dropdown.Item as="button" onClick={joinAsMedia}>Media</Dropdown.Item>
                 <Dropdown.Item as="button" onClick={joinAsWinner}>Previous Winner</Dropdown.Item>
