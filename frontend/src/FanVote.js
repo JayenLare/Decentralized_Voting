@@ -126,6 +126,8 @@ const Votes = ({ contract, clicked, createVote }) => {
           </Card>
         ))}
       </div>
+      <br></br>
+      <br></br>
     </div>
   );
 };
