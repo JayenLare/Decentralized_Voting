@@ -17,9 +17,9 @@ function App() {
   const [isMember, setIsMember] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  const [uri, setUri] = useState("ipfs/QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4");
-  const [options, setOptions] = useState(5);
-  const [endDate, setEndDate] = useState("02/05/2024");
+  const [uri, setUri] = useState("ipfs/QmNw21MDbxgq89jXyXqGZS7xWh6EbbFGPu35dSSwbtLZG8");
+  const [options, setOptions] = useState(10);
+  const [endDate, setEndDate] = useState("05/03/2024");
 
   useEffect(() => {
     window.ethereum.request({ method: "eth_accounts" }).then((accounts) => {

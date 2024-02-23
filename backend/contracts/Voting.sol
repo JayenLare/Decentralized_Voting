@@ -137,11 +137,11 @@ contract Voting {
         string memory uri,
         uint256 endTime,
         uint256 options
-    ) external isMember {
-        require(
-            options >= 2 && options <= 8,
-            "number of options must be between 2 and 8"
-        );
+    ) external {
+        // require(
+        //     options >= 2 && options <= 8,
+        //     "number of options must be between 2 and 8"
+        // );
         require(endTime > block.timestamp, "end time cannot be in past");
         uint256 voteId = nextVoteId;
 
@@ -157,14 +157,14 @@ contract Voting {
         nextVoteId++;
     }
 
-    function loadFanVote() external {
-        fanVote.uri = "QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4";
-        fanVote.options = 5;
-        // fanVote.endTime = 
-        fanVote.votes = new uint256[](5);
-        fanVote.owner = msg.sender;
-        emit FanVoteLoaded(msg.sender, block.timestamp);
-    }
+    // function loadFanVote() external {
+    //     fanVote.uri = "QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4";
+    //     fanVote.options = 5;
+    //     // fanVote.endTime = 
+    //     fanVote.votes = new uint256[](5);
+    //     fanVote.owner = msg.sender;
+    //     emit FanVoteLoaded(msg.sender, block.timestamp);
+    // }
 
     function fanVotes(uint256 option)
         external

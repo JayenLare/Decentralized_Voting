@@ -7,9 +7,9 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 const Votes = ({ contract, clicked, createVote }) => {
   const gateway = "https://gateway.pinata.cloud/";
   const [votes, setVotes] = useState([]);
-  const [uri, setUri] = useState("ipfs/QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4");
-  const [options, setOptions] = useState(5);
-  const [endDate, setEndDate] = useState("02/05/2024");
+  // const [uri, setUri] = useState("ipfs/QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4");
+  // const [options, setOptions] = useState(5);
+  // const [endDate, setEndDate] = useState("02/05/2024");
 
   useEffect(() => {
     if (!contract) return;
@@ -28,7 +28,7 @@ const Votes = ({ contract, clicked, createVote }) => {
     await contract
       .vote(id, optionIdx)
       .then(() => alert("Success!"))
-      .catch((error) => alert("Error: Cannot cast vote"), (error) => console.log(error.message));
+      .catch((error) => alert("Error: Only fans can cast a vote"), (error) => console.log(error.message));
   };
 
   const setVotesData = async (votes) => {
@@ -79,7 +79,7 @@ const Votes = ({ contract, clicked, createVote }) => {
       <h5 style={{textAlign: "center", marginTop: "15px"}}>Here fans can vote for their favorite Heisman candidate</h5>
       <p style={{textAlign: "center", marginTop: "5px", marginRight: "250px", marginLeft: "250px",}}> 
       Fans get the choice of any of the current top 10 Heisman candidates. When voting is complete,
-      the top 3 in the fan vote poll count towards one Heisman ballot. All members can view the fan poll, but only fans can cast a vote.
+      the top 3 in the fan vote poll count towards one Heisman ballot. All users can view the fan poll, but only fans can cast a vote.
       </p>
       <div style={{textAlign: "center", marginTop: "-5px"}}>
       {!clicked ? (

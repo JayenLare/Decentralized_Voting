@@ -24,7 +24,6 @@ const abi = [
   "function joinFan()",
   "function joinMedia()",
   "function joinWinner()",
-  "function loadFanVote()",
   "function loadFanVoteClicked() view returns (bool)",
   "function media(address) view returns (bool)",
   "function members(address) view returns (bool)",
