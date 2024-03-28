@@ -99,7 +99,7 @@ contract Voting {
     modifier canVote(uint256 voteId, uint256 option) {
         require(voteId < nextVoteId, "vote does not exist");
         require(option < votes[voteId].options, "invalid option");
-        require(!votes[voteId].voted[msg.sender], "you have already voted");
+        //require(!votes[voteId].voted[msg.sender], "you have already voted");
         require(block.timestamp <= votes[voteId].endTime, "vote has ended");
         _;
     }
