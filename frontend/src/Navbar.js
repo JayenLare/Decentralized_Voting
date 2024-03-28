@@ -14,7 +14,7 @@ const NavbarTop = ({ connect, connected, becomeMember, joinAsFan, joinAsMedia, j
         <Navbar.Collapse>
           <Nav className="me-auto">
             <Nav.Link href="/fan-vote">Fan Vote</Nav.Link>
-            <Nav.Link href="/create-vote">Create Vote</Nav.Link>
+            <Nav.Link href="/cast-ballot">Cast Ballot</Nav.Link>
             <Nav.Link href="/results">Results</Nav.Link>
             <Nav.Link href="/ceremony">Ceremony</Nav.Link>
             <Nav.Link href="/info">About Heisman</Nav.Link>

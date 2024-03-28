@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
-import CreateVote from "./CreateVotes";
+import CastBallot from "./CastBallot.js";
 import FanVote from "./FanVote.js";
 import Navbar from "./Navbar";
 import Footer from "./Footer.js";
@@ -160,10 +160,7 @@ function App() {
         <div className="container">
           <Routes>
           <Route path="" element={<Home contract={contract} />} />
-            <Route
-              path="create-vote"
-              element={<CreateVote contract={contract} />}
-            />
+            <Route path="cast-ballot" element={<CastBallot contract={contract} />} />
             <Route path="fan-vote" element={<FanVote contract={contract} clicked={clicked} createVote={createVote}/>} />
             <Route path="results" element={<Results contract={contract} />} />
             <Route path="ceremony" element={<Ceremony contract={contract} />} />
