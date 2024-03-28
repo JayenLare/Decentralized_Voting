@@ -5,6 +5,8 @@ contract Voting {
     uint256 nextVoteId;
     uint256 nextBallotId;
 
+    uint256 constant public endDate = 1733374800;
+
     struct Vote {
         string uri;
         address owner;
@@ -15,11 +17,14 @@ contract Voting {
     }
 
     struct Ballot {
-        string uri;
+        uint256 ballotId;
         address owner;
-        uint256 endDate;    // Dec 4th
+        string choice1;
+        string choice2;
+        string choice3;
         uint256[] ballots;
         mapping(address => bool) ballotCast;
+        uint256 endDate;    // Dec 4th
         uint256 choices;    // 3
     }
 
@@ -29,6 +34,9 @@ contract Voting {
 
     mapping(uint256 => Vote) votes;
     mapping(uint256 => Ballot) ballots;
+
+    mapping(address => bool) ballotCasted;
+    mapping(string => uint256) results;
 
     mapping(address => bool) public members;
     mapping(address => bool) public media;
@@ -74,13 +82,16 @@ contract Voting {
 
     event BallotCast(
         address indexed voter,
-        uint256 indexed ballotId,
-        uint256 indexed choices,
         uint256 createdAt
     );
 
     modifier isFan() {
         require(fans[msg.sender], "you are not a fan");
+        _;
+    }
+
+    modifier isNotFan() {
+        require(media[msg.sender] || winners[msg.sender], "you are not a media member or previous winner");
         _;
     }
 
@@ -104,11 +115,22 @@ contract Voting {
         _;
     }
 
-    modifier canCastBallot(uint256 ballotId, uint256 choices) {
-        require(ballotId < nextBallotId, "vote does not exist");
-        require(choices < ballots[ballotId].choices, "invalid option");
-        require(!ballots[ballotId].ballotCast[msg.sender], "you have already voted");
-        require(block.timestamp <= ballots[ballotId].endDate, "vote has ended");
+    function compare(string memory str1, string memory str2) public pure returns (bool) {
+        if (bytes(str1).length != bytes(str2).length) {
+            return false;
+        }
+        return keccak256(abi.encodePacked(str1)) == keccak256(abi.encodePacked(str2));
+    }
+
+    modifier canCastBallot(string memory choice1,
+        string memory choice2,
+        string memory choice3
+        ) {
+        require(!compare(choice1, ""), "Must have a first choice");
+        require(!compare(choice1, ""), "Must have a second choice");
+        require(!compare(choice1, ""), "Must have a third choice");
+        require(!ballotCasted[msg.sender], "you have already voted");
+        require(block.timestamp <= endDate, "vote has ended");
         _;
     }
 
@@ -230,35 +252,49 @@ contract Voting {
         return votes[voteId].voted[member];
     }
 
-    function createBallot(
-        string memory uri,
-        uint256 endDate,
-        uint256 choices
-    ) external isMember {
-        require(
-            choices == 3,
-            "must submit 3 players per ballot"
-        );
-        require(endDate > block.timestamp, "end time cannot be in past");
-        uint256 ballotId = nextBallotId;
-
-        ballots[ballotId].uri = uri;
-        ballots[ballotId].owner = msg.sender;
-        ballots[ballotId].endDate = endDate;
-        ballots[ballotId].choices = choices;
-        ballots[ballotId].ballots = new uint256[](choices);
-
-        emit BallotCreated(msg.sender, ballotId, block.timestamp, endDate);
-        nextBallotId++;
+    function castBallot (
+        string memory choice1,
+        string memory choice2,
+        string memory choice3
+    ) external isNotFan canCastBallot (choice1, choice2, choice3)
+    {
+        results[choice1] += 3;
+        results[choice2] += 2;
+        results[choice3] += 1;
+        ballotCasted[msg.sender] = true;
+        emit BallotCast(msg.sender, block.timestamp);
     }
 
-    function castBallot(uint256 ballotId, uint256 choices) 
-        external isMember canCastBallot(ballotId, choices) {
-        ballots[ballotId].ballots[0] = ballots[ballotId].ballots[0] + 3;    // first choice
-        ballots[ballotId].ballots[1] = ballots[ballotId].ballots[1] + 2;    // second choice
-        ballots[ballotId].ballots[2] = ballots[ballotId].ballots[2] + 1;    // third choice
-        ballots[ballotId].ballotCast[msg.sender] = true;
+    // function createBallot(
+    //     string memory uri,
+    //     uint256 endDate,
+    //     uint256 choices
+    // ) external isMember {
+    //     require(
+    //         choices == 3,
+    //         "must submit 3 players per ballot"
+    //     );
+    //     require(endDate > block.timestamp, "end time cannot be in past");
+    //     uint256 ballotId = nextBallotId;
 
-        emit BallotCast(msg.sender, ballotId, choices, block.timestamp);
-    }
+    //     //ballots[ballotId].uri = uri;
+    //     ballots[ballotId].choice1 = choice1;
+    //     ballots[ballotId].owner = msg.sender;
+    //     ballots[ballotId].endDate = endDate;
+    //     ballots[ballotId].choices = choices;
+    //     ballots[ballotId].ballots = new uint256[](choices);
+
+    //     emit BallotCreated(msg.sender, ballotId, block.timestamp, endDate);
+    //     nextBallotId++;
+    // }
+
+    // function castBallot(uint256 ballotId, uint256 choices) 
+    //     external isMember canCastBallot(ballotId, choices) {
+    //     ballots[ballotId].ballots[0] = ballots[ballotId].ballots[0] + 3;    // first choice
+    //     ballots[ballotId].ballots[1] = ballots[ballotId].ballots[1] + 2;    // second choice
+    //     ballots[ballotId].ballots[2] = ballots[ballotId].ballots[2] + 1;    // third choice
+    //     ballots[ballotId].ballotCast[msg.sender] = true;
+
+    //     emit BallotCast(msg.sender, ballotId, choices, block.timestamp);
+    // }
 }

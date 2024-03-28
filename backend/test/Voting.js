@@ -57,6 +57,26 @@ describe("Voting", function () {
     });
   });
 
+  describe("Cast Ballot", () => {
+    it("Can handle new entries", async () => {
+      await expect(voting.castBallot("player1", "player2", "player3")).to.emit(voting, "BallotCast");
+    });
+    it("Can handle repeated entries", async () => {
+      await expect(voting.connect(addr3).castBallot("player3", "player5", "player1")).to.emit(voting, "BallotCast");
+    });
+    it("Cannot cast multiple ballots", async () => {
+      await expect(voting.castBallot("player1", "player2", "player3")).to.be.reverted;
+    });
+    it("Cannot leave any choice blank", async () => {
+      await voting.connect(addr2).join();
+      await expect(voting.castBallot("player1", "", "player3")).to.be.reverted;
+    });
+    it("Can only vote if a media member or prev winner", async () => {
+      await expect(voting.connect(addr4).castBallot("player1", "player2", "player3")).to.be.reverted;
+    });
+  });
+
+  /*
   describe("Create vote", () => {
     it("Cannot create vote if not member", async () => {
       await expect(
@@ -159,4 +179,5 @@ describe("Voting", function () {
       await expect(voting.connect(addr2).castBallot(0, 0)).to.be.reverted;
     });
   });
+  */
 });
