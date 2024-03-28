@@ -64,7 +64,7 @@ function App() {
     await contract
       .createVote(uri, new Date(endDate).getTime(), options)
       .then(() => {
-        alert("Success!");
+        alert("The fan vote poll is being loaded...\nPlease wait a few seconds then refresh the page");
         setClicked(true);
       })
       .catch((error) => alert("Error: Cannot create vote"), (error) => console.log(error.message));

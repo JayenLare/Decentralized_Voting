@@ -157,14 +157,14 @@ contract Voting {
         nextVoteId++;
     }
 
-    // function loadFanVote() external {
-    //     fanVote.uri = "QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4";
-    //     fanVote.options = 5;
-    //     // fanVote.endTime = 
-    //     fanVote.votes = new uint256[](5);
-    //     fanVote.owner = msg.sender;
-    //     emit FanVoteLoaded(msg.sender, block.timestamp);
-    // }
+    function loadFanVote() external {
+        // fanVote.uri = "QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4";
+        // fanVote.options = 5;
+        // // fanVote.endTime = 
+        // fanVote.votes = new uint256[](5);
+        // fanVote.owner = msg.sender;
+        emit FanVoteLoaded(msg.sender, block.timestamp);
+    }
 
     function fanVotes(uint256 option)
         external
