@@ -27,7 +27,7 @@ const Votes = ({ contract, clicked, createVote }) => {
   const votePressed = async (id, optionIdx) => {
     await contract
       .vote(id, optionIdx)
-      .then(() => alert("Success!"))
+      .then(() => alert("Success!\nPlease wait a few seconds for your vote to process then refresh the page"))
       .catch((error) => alert("Error: Only fans can cast a vote"), (error) => console.log(error.message));
   };
 
@@ -95,8 +95,8 @@ const Votes = ({ contract, clicked, createVote }) => {
       </div>
       <div className="m-4">
         {votes.map((vote) => (
-          <Card key={vote.id} className="my-2">
-            <Card.Header>{vote.description}</Card.Header>
+          <Card key={vote.id}>
+            <Card.Header as="h6">{vote.description}</Card.Header>
             <Card.Body>
               {vote.options.map((option, idx) => (
                 <div className="mt-1" key={Math.random() + idx}>
