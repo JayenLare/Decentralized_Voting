@@ -36,7 +36,8 @@ contract Voting {
     mapping(uint256 => Ballot) ballots;
 
     mapping(address => bool) ballotCasted;
-    mapping(string => uint256) results;
+    mapping(string => uint256) canididates;
+    string[] public results;
 
     mapping(address => bool) public members;
     mapping(address => bool) public media;
@@ -258,11 +259,34 @@ contract Voting {
         string memory choice3
     ) external isNotFan canCastBallot (choice1, choice2, choice3)
     {
-        results[choice1] += 3;
-        results[choice2] += 2;
-        results[choice3] += 1;
+        canididates[choice1] += 3;
+        canididates[choice2] += 2;
+        canididates[choice3] += 1;
         ballotCasted[msg.sender] = true;
+        results.push(choice1);
+        results.push(choice2);
+        results.push(choice3);
         emit BallotCast(msg.sender, block.timestamp);
+    }
+
+    // Function to sort the keys based on their values
+    function sortKeys() external {
+        uint256 length = results.length;
+
+        // Bubble sort algorithm to sort the keys array based on their corresponding values
+        for (uint256 i = 0; i < length - 1; i++) {
+            for (uint256 j = 0; j < length - i - 1; j++) {
+                if (canididates[results[j]] > canididates[results[j + 1]]) {
+                    (results[j], results[j + 1]) = (results[j + 1], results[j]);
+                }
+            }
+        }
+    }
+
+    function getResults() public view returns (string[] memory)
+    {
+        return results;
+        //return "test";
     }
 
     // function createBallot(

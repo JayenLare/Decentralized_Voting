@@ -20,6 +20,7 @@ const abi = [
   "function fanVotes(uint256 option)",
   "function fans(address) view returns (bool)",
   "function getFanVote() view returns (string, address, uint256[], uint256)",
+  "function getResults() view returns (string[])",
   "function getVote(uint256 voteId) view returns (string, address, uint256[], uint256)",
   "function join()",
   "function joinFan()",
@@ -29,9 +30,11 @@ const abi = [
   "function loadFanVoteClicked() view returns (bool)",
   "function media(address) view returns (bool)",
   "function members(address) view returns (bool)",
+  "function results(uint256) view returns (string)",
+  "function sortKeys()",
   "function vote(uint256 voteId, uint256 option)",
   "function winners(address) view returns (bool)"
-];
+]
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
