@@ -4,7 +4,6 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 
 const CastBallot = ({contract}) => {
-
   const [choice1, setChoice1] = useState("");
   const [choice2, setChoice2] = useState("");
   const [choice3, setChoice3] = useState("");
@@ -17,7 +16,7 @@ const CastBallot = ({contract}) => {
 
     await contract
       .castBallot(choice1, choice2, choice3)
-      .then(() => alert("Success!"))
+      .then(() => alert("Success!\nYour ballot has been submitted"))
       .catch((error) => alert("Error: Cannot cast ballot"), (error) => console.log(error.message));
   };
 
@@ -70,7 +69,7 @@ const CastBallot = ({contract}) => {
               />
             </Form.Group>
             <Form.Group className="m-2 mt-4">
-              <Button variant="success" onClick={castballot}>
+              <Button variant="primary" onClick={castballot}>
                 Cast Ballot
               </Button> 
             </Form.Group>
