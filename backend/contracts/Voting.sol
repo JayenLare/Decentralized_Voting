@@ -38,6 +38,7 @@ contract Voting {
     mapping(address => bool) ballotCasted;
     mapping(string => uint256) canididates;
     string[] public results;
+    mapping (string => bool) isDuplicate;
 
     mapping(address => bool) public members;
     mapping(address => bool) public media;
@@ -127,11 +128,11 @@ contract Voting {
         string memory choice2,
         string memory choice3
         ) {
+        require(!ballotCasted[msg.sender], "you have already voted");
+        require(block.timestamp <= endDate, "vote has ended");
         require(!compare(choice1, ""), "Must have a first choice");
         require(!compare(choice1, ""), "Must have a second choice");
         require(!compare(choice1, ""), "Must have a third choice");
-        require(!ballotCasted[msg.sender], "you have already voted");
-        require(block.timestamp <= endDate, "vote has ended");
         _;
     }
 
@@ -253,6 +254,22 @@ contract Voting {
         return votes[voteId].voted[member];
     }
 
+        // Function to sort the keys based on their values
+    function sortKeys() private {
+        uint256 length = results.length;
+
+        // Bubble sort algorithm to sort the keys array based on their corresponding values
+        for (uint256 i = 0; i < length - 1; i++) {
+            for (uint256 j = 0; j < length - 1; j++) {
+                if (canididates[results[j]] < canididates[results[j + 1]]) {
+                    string memory temp = results[j];
+                    results[j] = results[j+1];
+                    results[j+1] = temp;
+                }
+            }
+        }
+    }
+
     function castBallot (
         string memory choice1,
         string memory choice2,
@@ -263,30 +280,25 @@ contract Voting {
         canididates[choice2] += 2;
         canididates[choice3] += 1;
         ballotCasted[msg.sender] = true;
-        results.push(choice1);
-        results.push(choice2);
-        results.push(choice3);
-        emit BallotCast(msg.sender, block.timestamp);
-    }
-
-    // Function to sort the keys based on their values
-    function sortKeys() external {
-        uint256 length = results.length;
-
-        // Bubble sort algorithm to sort the keys array based on their corresponding values
-        for (uint256 i = 0; i < length - 1; i++) {
-            for (uint256 j = 0; j < length - i - 1; j++) {
-                if (canididates[results[j]] > canididates[results[j + 1]]) {
-                    (results[j], results[j + 1]) = (results[j + 1], results[j]);
-                }
-            }
+        if (isDuplicate[choice1] == false){
+            results.push(choice1);
+            isDuplicate[choice1] = true;
         }
+        if (isDuplicate[choice2] == false){
+            results.push(choice2);
+            isDuplicate[choice2] = true;
+        }
+        if (isDuplicate[choice3] == false){
+            results.push(choice3);
+            isDuplicate[choice3] = true;
+        }
+        sortKeys();
+        emit BallotCast(msg.sender, block.timestamp);
     }
 
     function getResults() public view returns (string[] memory)
     {
         return results;
-        //return "test";
     }
 
     // function createBallot(

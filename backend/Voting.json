@@ -32,7 +32,6 @@
       "function media(address) view returns (bool)",
       "function members(address) view returns (bool)",
       "function results(uint256) view returns (string)",
-      "function sortKeys()",
       "function vote(uint256 voteId, uint256 option)",
       "function winners(address) view returns (bool)"
     ]
