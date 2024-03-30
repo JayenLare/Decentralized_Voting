@@ -22,8 +22,8 @@ const CastBallot = ({contract}) => {
 
   return (
     <div className="m-4">
-      <div style={{textAlign: "center", marginBottom: "20px"}}>
-      <h1 style={{marginTop: "-5px"}}>Cast Ballot</h1>
+      <div style={{textAlign: "center", marginBottom: "30px"}}>
+        <h1 style={{marginTop: "-5px"}}>Cast Ballot</h1>
         <hr/>
         <h5 style={{marginTop: "15px"}}>Here eligible members can cast their Heisman ballot</h5>
         <p style={{marginTop: "5px", marginRight: "250px", marginLeft: "250px",}}> 
@@ -32,7 +32,7 @@ const CastBallot = ({contract}) => {
         a maximum of one ballot. Be sure to fill out all three choices with the player's first and last name. All 
         ballots are undisclosed until the Heisman ceremony, where the results will be announced. 
         </p>
-        <h6 style={{marginTop: "-5px", marginBottom: "10px"}}>~ Cast your ballot below ~</h6>
+        <h6 style={{marginTop: "-5px"}}>~ Cast your ballot below ~</h6>
       </div>
       <Card>
       <Card.Header as="h6">Heisman Trophy Award Ballot</Card.Header>

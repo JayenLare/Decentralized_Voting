@@ -84,7 +84,7 @@ const Votes = ({ contract, clicked, createVote }) => {
       <div style={{textAlign: "center", marginTop: "-5px"}}>
       {!clicked ? (
         <div>
-          <h6 style={{marginBottom: "15px"}}>~To access the fan voting poll please click the button below~</h6>
+          <h6 style={{marginBottom: "15px"}}>~ To access the fan voting poll please click the button below ~</h6>
           <Button variant="primary" onClick={createVote}>
               Load Fan Vote
           </Button>
