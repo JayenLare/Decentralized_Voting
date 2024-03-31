@@ -49,14 +49,15 @@ const Results = ({contract}) => {
         <h5 style={{marginTop: "15px"}}>Here the Heisman Trophy Award Results are displayed</h5>
         <p style={{marginTop: "5px", marginRight: "250px", marginLeft: "250px"}}> 
         After the completion of the Heisman ceremony, the final voting results will automatically be displayed below.
-        All members and non-member can view the top 10 Heisman trophy award finishers. 
+        All members and non-member can view the complete ranking of all the Heisman candidates. 
         </p>
       </div>
       { endDate > currentDate ? (
         <h6 style={{textAlign: "center", marginTop: "10px"}}>~ The results will be displayed after the Heisman ceremony ~</h6>
       ) : (
         <div style={{textAlign: "center", marginRight: "200px", marginLeft: "200px"}}>
-          <h6 style={{textAlign: "center", marginTop: "10px", marginBottom: "20px"}}>~ 2023 Heisman Trophy Award Final Voting Results~</h6>     
+          <h6 style={{textAlign: "center", marginTop: "10px", marginBottom: "20px"}}>~ 2023 Heisman Trophy Award Final Voting Results ~</h6>
+          { results.length > 0 ? (   
           <Table striped bordered size="sm">
             <thead>
               <tr>
@@ -73,6 +74,22 @@ const Results = ({contract}) => {
             ))}
             </tbody>
           </Table>
+          ) : (
+            <Table striped bordered size="sm">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>TBD...</td>
+              </tr>
+            </tbody>
+          </Table>
+          )}
         </div>
       )}
     </div>
