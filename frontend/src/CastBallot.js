@@ -26,7 +26,7 @@ const CastBallot = ({contract}) => {
         <h1 style={{marginTop: "-5px"}}>Cast Ballot</h1>
         <hr/>
         <h5 style={{marginTop: "15px"}}>Here eligible members can cast their Heisman ballot</h5>
-        <p style={{marginTop: "5px", marginRight: "250px", marginLeft: "250px",}}> 
+        <p style={{marginTop: "5px", marginRight: "250px", marginLeft: "250px"}}> 
         Select media members and previous Heisman winners can vote for their top three choices for this years Heisman
         Trophy Award. Ballots can be filled out and cast anytime before voting deadline. Each voter can cast 
         a maximum of one ballot. Be sure to fill out all three choices with the player's first and last name. All 
