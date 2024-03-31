@@ -104,8 +104,6 @@ contract Voting {
 
     event InviteRequested(
         address indexed owner,
-        string name,
-        string membership,
         uint256 createdAt
     );
 
@@ -148,13 +146,14 @@ contract Voting {
 
     modifier canRequest(string memory name, string memory email,
         string memory addr, string memory city, 
-        string memory state, string memory zip) {
+        string memory state, string memory zip, string memory membership) {
         require(!inviteRequested[msg.sender], "you have already requested an invitation");
         require(block.timestamp <= endDate, "Deadline for ceremony invite has past");
         require(!compare(name, ""), "Must enter your name");
         require(!compare(email, ""), "Must enter a valid email");
         require(!compare(addr, "") || !compare(city, "") || 
             !compare(state, "") || !compare(zip, ""), "Must enter a valid address");
+        require(!compare(membership, ""), "Must select a membership type");
         _;
     }
 
@@ -343,7 +342,8 @@ contract Voting {
         string memory state,
         string memory zip,
         string memory membership
-    ) external isMember canRequest(name, email, addr, city, state, zip)
+    ) external isMember 
+        canRequest(name, email, addr, city, state, zip, membership)
     {
         uint256 requestId = nextRequestId;
 
@@ -356,7 +356,7 @@ contract Voting {
         attendees[requestId].zip = zip;
         attendees[requestId].membership = membership;
         inviteRequested[msg.sender] = true;
-        emit InviteRequested(msg.sender, name, membership, block.timestamp);
+        emit InviteRequested(msg.sender, block.timestamp);
         nextRequestId++;
     }
 
