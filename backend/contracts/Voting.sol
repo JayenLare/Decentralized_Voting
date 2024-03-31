@@ -28,6 +28,15 @@ contract Voting {
         uint256 choices;    // 3
     }
 
+    struct Attendee {
+        string name;
+        string email;
+        string addr;
+        string city;
+        string state;
+        string zip;
+    }
+
     Vote fanVote;
 
     bool public loadFanVoteClicked = false;
@@ -39,6 +48,8 @@ contract Voting {
     mapping(string => uint256) canididates;
     string[] public results;
     mapping (string => bool) isDuplicate;
+
+    mapping(address => Attendee) attendees;
 
     mapping(address => bool) public members;
     mapping(address => bool) public media;
@@ -299,6 +310,23 @@ contract Voting {
     function getResults() public view returns (string[] memory)
     {
         return results;
+    }
+
+    function ceremonyInviteRequest (
+        string memory name,
+        string memory email,
+        string memory addr,
+        string memory city,
+        string memory state,
+        string memory zip
+    ) external isMember
+    {
+        attendees[msg.sender].name = name;
+        attendees[msg.sender].email = email;
+        attendees[msg.sender].addr = addr;
+        attendees[msg.sender].city = city;
+        attendees[msg.sender].state = state;
+        attendees[msg.sender].zip = zip;
     }
 
     // function createBallot(
