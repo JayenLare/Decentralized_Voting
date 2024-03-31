@@ -6,7 +6,7 @@ const Results = ({contract}) => {
   const [results, setResults] = useState([""]);
   //const [candidates] = useState(["how"]);
 
-  const endDate = new Date('2023-12-9');
+  const endDate = new Date('2023-12-14');
   const currentDate = new Date();
 
   useEffect(() => {
@@ -14,15 +14,15 @@ const Results = ({contract}) => {
 
     const setResultData = async () => {
       // Call contract function to get results
-      //const candidates = await contract.getResults();
+      const candidates = await contract.getResults();
 
       // await contract
       // .getResults()
       // .then(() => alert("Success!"))
       // .catch((error) => alert("Error: "), (error) => console.log(error.message));
 
-      const candidates = ["Jayden Daniels", "Michael Penix Jr.", "Bo Nix", "Marvin Harrison Jr.", "Jordan Travis", 
-                          "Jalen Milroe", "Ollie Gordon", "Drake Maye", "JJ McCarthy", "Travis Hunter"];
+      //const candidates = ["Jayden Daniels", "Michael Penix Jr.", "Bo Nix", "Marvin Harrison Jr.", "Jordan Travis", 
+      //                    "Jalen Milroe", "Ollie Gordon", "Drake Maye", "JJ McCarthy", "Travis Hunter"];
 
       //console.log(candidates);
 
