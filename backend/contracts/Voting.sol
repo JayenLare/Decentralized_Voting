@@ -4,6 +4,7 @@ pragma solidity ^0.8.9;
 contract Voting {
     uint256 nextVoteId;
     uint256 nextBallotId;
+    uint256 nextRequestId;
 
     uint256 constant public endDate = 1733374800;
 
@@ -29,12 +30,14 @@ contract Voting {
     }
 
     struct Attendee {
+        address owner;
         string name;
         string email;
         string addr;
         string city;
         string state;
         string zip;
+        string membership;
     }
 
     Vote fanVote;
@@ -49,7 +52,8 @@ contract Voting {
     string[] public results;
     mapping (string => bool) isDuplicate;
 
-    mapping(address => Attendee) attendees;
+    mapping(uint256 => Attendee) attendees;
+    mapping(address => bool) inviteRequested;
 
     mapping(address => bool) public members;
     mapping(address => bool) public media;
@@ -98,6 +102,13 @@ contract Voting {
         uint256 createdAt
     );
 
+    event InviteRequested(
+        address indexed owner,
+        string name,
+        string membership,
+        uint256 createdAt
+    );
+
     modifier isFan() {
         require(fans[msg.sender], "you are not a fan");
         _;
@@ -135,6 +146,18 @@ contract Voting {
         return keccak256(abi.encodePacked(str1)) == keccak256(abi.encodePacked(str2));
     }
 
+    modifier canRequest(string memory name, string memory email,
+        string memory addr, string memory city, 
+        string memory state, string memory zip) {
+        require(!inviteRequested[msg.sender], "you have already requested an invitation");
+        require(block.timestamp <= endDate, "Deadline for ceremony invite has past");
+        require(!compare(name, ""), "Must enter your name");
+        require(!compare(email, ""), "Must enter a valid email");
+        require(!compare(addr, "") || !compare(city, "") || 
+            !compare(state, "") || !compare(zip, ""), "Must enter a valid address");
+        _;
+    }
+
     modifier canCastBallot(string memory choice1,
         string memory choice2,
         string memory choice3
@@ -142,8 +165,8 @@ contract Voting {
         require(!ballotCasted[msg.sender], "you have already voted");
         require(block.timestamp <= endDate, "vote has ended");
         require(!compare(choice1, ""), "Must have a first choice");
-        require(!compare(choice1, ""), "Must have a second choice");
-        require(!compare(choice1, ""), "Must have a third choice");
+        require(!compare(choice2, ""), "Must have a second choice");
+        require(!compare(choice3, ""), "Must have a third choice");
         _;
     }
 
@@ -318,15 +341,53 @@ contract Voting {
         string memory addr,
         string memory city,
         string memory state,
-        string memory zip
-    ) external isMember
+        string memory zip,
+        string memory membership
+    ) external isMember canRequest(name, email, addr, city, state, zip)
     {
-        attendees[msg.sender].name = name;
-        attendees[msg.sender].email = email;
-        attendees[msg.sender].addr = addr;
-        attendees[msg.sender].city = city;
-        attendees[msg.sender].state = state;
-        attendees[msg.sender].zip = zip;
+        uint256 requestId = nextRequestId;
+
+        attendees[requestId].owner = msg.sender;
+        attendees[requestId].name = name;
+        attendees[requestId].email = email;
+        attendees[requestId].addr = addr;
+        attendees[requestId].city = city;
+        attendees[requestId].state = state;
+        attendees[requestId].zip = zip;
+        attendees[requestId].membership = membership;
+        inviteRequested[msg.sender] = true;
+        emit InviteRequested(msg.sender, name, membership, block.timestamp);
+        nextRequestId++;
+    }
+
+    function getAddress(string memory addr, string memory city,
+        string memory state, string memory zip) 
+        internal pure returns (string memory)
+    {
+        return string.concat(addr, ", ", city, ", ", state, " ", zip);
+    }
+
+    function getCeremonyRequest(uint256 requestId)
+        public
+        view
+        returns (
+            address,
+            string memory, string memory,
+            string memory, string memory
+        )
+    {
+        
+        return (
+            attendees[requestId].owner,
+            attendees[requestId].name,
+            attendees[requestId].email,
+            getAddress(
+                attendees[requestId].addr,
+                attendees[requestId].city,
+                attendees[requestId].state,
+                attendees[requestId].zip),
+            attendees[requestId].membership
+        );
     }
 
     // function createBallot(

@@ -15,7 +15,7 @@ describe("Voting", function () {
   let voting;
 
   before(async () => {
-    [addr0, addr1, addr2, addr3, addr4] = await ethers.getSigners();
+    [addr0, addr1, addr2, addr3, addr4, addr5] = await ethers.getSigners();
 
     const Voting = await ethers.getContractFactory("Voting");
     voting = await Voting.deploy({});
@@ -68,11 +68,26 @@ describe("Voting", function () {
       await expect(voting.castBallot("player1", "player2", "player3")).to.be.reverted;
     });
     it("Cannot leave any choice blank", async () => {
-      await voting.connect(addr2).join();
+      await voting.connect(addr2).joinMedia();
       await expect(voting.castBallot("player1", "", "player3")).to.be.reverted;
     });
     it("Can only vote if a media member or prev winner", async () => {
       await expect(voting.connect(addr4).castBallot("player1", "player2", "player3")).to.be.reverted;
+    });
+  });
+
+  describe("Ceremony Invite Request", () => {
+    it("Cannot request if not a member", async () => {
+      await expect(voting.connect(addr5).ceremonyInviteRequest("name", "email", "addr", "city", "state", "zip", "fan")).to.be.reverted;
+    });
+    it("Cannot leave any fields blank", async () => {
+      await expect(voting.ceremonyInviteRequest("name", "", "addr", "city", "", "zip", "fan")).to.be.reverted;
+    });
+    it("Can submit a invitation request", async () => {
+      await expect(voting.ceremonyInviteRequest("name", "email", "addr", "city", "state", "zip", "fan")).to.emit(voting, "InviteRequested");
+    });
+    it("Cannot submit multiple requests", async () => {
+      await expect(voting.ceremonyInviteRequest("name", "email", "addr", "city", "state", "zip", "fan")).to.be.reverted;
     });
   });
 
