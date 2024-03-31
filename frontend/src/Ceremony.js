@@ -12,6 +12,7 @@ const Ceremony = ({ contract }) => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
+  const [membership, setMembership] = useState("");
 
   const ceremonyinviterequest = async () => {
     if (!contract) {
@@ -20,7 +21,7 @@ const Ceremony = ({ contract }) => {
     }
 
     await contract
-      .ceremonyInviteRequest(name, email, address, city, state, zip)
+      .ceremonyInviteRequest(name, email, address, city, state, zip, membership)
       .then(() => alert("Success!\nYour request has been submitted"))
       .catch((error) => alert("Error: Cannot submit request"), (error) => console.log(error.message));
   };
@@ -46,8 +47,8 @@ const Ceremony = ({ contract }) => {
           <Card.Body>
             <Form>
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridEmail">
-                <Form.Label>Name</Form.Label>
+              <Form.Group as={Col} controlId="formGridName">
+                <Form.Label>Name:</Form.Label>
                 <Form.Control 
                   type="text"
                   name="name"
@@ -56,8 +57,8 @@ const Ceremony = ({ contract }) => {
                 />
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridPassword">
-                <Form.Label>Email</Form.Label>
+              <Form.Group as={Col} controlId="formGridEmail">
+                <Form.Label>Email:</Form.Label>
                 <Form.Control 
                   type="text"
                   name="email"
@@ -68,7 +69,7 @@ const Ceremony = ({ contract }) => {
             </Row>
 
             <Form.Group className="mb-3" controlId="formGridAddress1">
-              <Form.Label>Address</Form.Label>
+              <Form.Label>Address:</Form.Label>
               <Form.Control 
                   type="text"
                   name="address"
@@ -79,7 +80,7 @@ const Ceremony = ({ contract }) => {
 
             <Row className="mb-3">
               <Form.Group as={Col} controlId="formGridCity">
-              <Form.Label>City</Form.Label>
+              <Form.Label>City:</Form.Label>
               <Form.Control 
                   type="text"
                   name="city"
@@ -89,7 +90,7 @@ const Ceremony = ({ contract }) => {
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridState">
-                <Form.Label>State</Form.Label>
+                <Form.Label>State:</Form.Label>
                 <Form.Control 
                   type="text"
                   name="state"
@@ -99,7 +100,7 @@ const Ceremony = ({ contract }) => {
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridZip">
-                <Form.Label>Zip</Form.Label>
+                <Form.Label>Zip:</Form.Label>
                 <Form.Control 
                   type="text"
                   name="zip"
@@ -109,9 +110,52 @@ const Ceremony = ({ contract }) => {
               </Form.Group>
             </Row>
 
-            <Button variant="primary" type="submit" onClick={ceremonyinviterequest}>
-              Submit
-            </Button>
+            <fieldset>
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={2}>
+                  Membership:
+                </Form.Label>
+                <Col sm={20}>
+                  <Form.Check
+                    inline
+                    style={{paddingLeft: "50px"}}
+                    type="radio"
+                    label="Fan"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios1"
+                    value={membership}
+                    onChange={(e) => setZip(e.target.value)}
+                  />
+                  <Form.Check
+                    inline
+                    style={{paddingLeft: "25px"}}
+                    type="radio"
+                    label="Media"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios2"
+                    value={membership}
+                    onChange={(e) => setZip(e.target.value)}
+                  />
+                  <Form.Check
+                    inline
+                    style={{paddingLeft: "25px"}}
+                    type="radio"
+                    label="Previous Winner"
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios3"
+                    value={membership}
+                    onChange={(e) => setZip(e.target.value)}
+                  />
+                </Col>
+              </Form.Group>
+            </fieldset>
+
+            <div className="d-grid gap-10" style={{marginLeft: "20px", marginRight: "20px"}}>
+              <Button variant="primary" size="lg" onClick={ceremonyinviterequest}>
+                Submit
+              </Button>
+            </div>
+
           </Form>
         </Card.Body>
       </Card>
