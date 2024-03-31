@@ -20,6 +20,8 @@ const Ceremony = ({ contract }) => {
       return;
     }
 
+    console.log(membership);
+
     await contract
       .ceremonyInviteRequest(name, email, address, city, state, zip, membership)
       .then(() => alert("Success!\nYour request has been submitted"))
@@ -123,8 +125,8 @@ const Ceremony = ({ contract }) => {
                     label="Fan"
                     name="formHorizontalRadios"
                     id="formHorizontalRadios1"
-                    value={membership}
-                    onChange={(e) => setZip(e.target.value)}
+                    value={"Fan"}
+                    onChange={(e) => setMembership(e.target.value)}
                   />
                   <Form.Check
                     inline
@@ -133,8 +135,8 @@ const Ceremony = ({ contract }) => {
                     label="Media"
                     name="formHorizontalRadios"
                     id="formHorizontalRadios2"
-                    value={membership}
-                    onChange={(e) => setZip(e.target.value)}
+                    value={"Media"}
+                    onChange={(e) => setMembership(e.target.value)}
                   />
                   <Form.Check
                     inline
@@ -143,8 +145,8 @@ const Ceremony = ({ contract }) => {
                     label="Previous Winner"
                     name="formHorizontalRadios"
                     id="formHorizontalRadios3"
-                    value={membership}
-                    onChange={(e) => setZip(e.target.value)}
+                    value={"Previous Winner"}
+                    onChange={(e) => setMembership(e.target.value)}
                   />
                 </Col>
               </Form.Group>

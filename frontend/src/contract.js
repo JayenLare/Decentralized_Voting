@@ -7,7 +7,7 @@ const abi = [
   "event FanJoined(address indexed fan, uint256 joinedAt)",
   "event FanVoteLoaded(address indexed owner, uint256 indexed createdAt)",
   "event FanVoted(address indexed voter, uint256 indexed option, uint256 createdAt)",
-  "event InviteRequested(address indexed owner, string name, string membership, uint256 createdAt)",
+  "event InviteRequested(address indexed owner, uint256 createdAt)",
   "event MediaJoined(address indexed media, uint256 joinedAt)",
   "event MemberJoined(address indexed member, uint256 joinedAt)",
   "event VoteCreated(address indexed owner, uint256 indexed voteId, uint256 indexed createdAt, uint256 endTime)",
