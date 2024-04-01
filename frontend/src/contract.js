@@ -22,6 +22,7 @@ const abi = [
   "function endDate() view returns (uint256)",
   "function fanVotes(uint256 option)",
   "function fans(address) view returns (bool)",
+  "function formatedResults(uint256) view returns (string)",
   "function getCeremonyRequest(uint256 requestId) view returns (address, string, string, string, string)",
   "function getFanVote() view returns (string, address, uint256[], uint256)",
   "function getHistory(uint256 year) view returns (string)",

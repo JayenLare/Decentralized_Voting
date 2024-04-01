@@ -50,6 +50,7 @@ contract Voting {
     mapping(address => bool) ballotCasted;
     mapping(string => uint256) canididates;
     string[] public results;
+    string[] public formatedResults;
     mapping (string => bool) isDuplicate;
 
     mapping(uint256 => Attendee) attendees;
@@ -313,6 +314,30 @@ contract Voting {
         }
     }
 
+    function toString(uint256 value) internal pure returns (string memory) {
+        if (value == 0) {
+            return "0";
+        }
+ 
+        uint256 temp = value;
+        uint256 digits;
+ 
+        while (temp != 0) {
+            digits++;
+            temp /= 10;
+        }
+ 
+        bytes memory buffer = new bytes(digits);
+ 
+        while (value != 0) {
+            digits--;
+            buffer[digits] = bytes1(uint8(48 + (value % 10)));
+            value /= 10;
+        }
+ 
+        return string(buffer);
+    }
+
     function castBallot (
         string memory choice1,
         string memory choice2,
@@ -336,12 +361,21 @@ contract Voting {
             isDuplicate[choice3] = true;
         }
         sortKeys();
+        formatResults();
         emit BallotCast(msg.sender, block.timestamp);
+    }
+
+    function formatResults() internal
+    {
+        for (uint256 i = 0; i < results.length; i++)
+        {
+            formatedResults.push(string.concat(results[i], " (", toString(canididates[results[i]]), ")"));
+        }
     }
 
     function getResults() public view returns (string[] memory)
     {
-        return results;
+        return formatedResults;
     }
 
     function ceremonyInviteRequest (

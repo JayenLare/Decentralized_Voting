@@ -55,14 +55,14 @@ const Results = ({contract}) => {
       { endDate > currentDate ? (
         <h6 style={{textAlign: "center", marginTop: "10px"}}>~ The results will be displayed after the Heisman ceremony ~</h6>
       ) : (
-        <div style={{textAlign: "center", marginRight: "200px", marginLeft: "200px"}}>
+        <div style={{textAlign: "center", marginRight: "300px", marginLeft: "300px"}}>
           <h6 style={{textAlign: "center", marginTop: "10px", marginBottom: "20px"}}>~ 2023 Heisman Trophy Award Final Voting Results ~</h6>
           { results.length > 0 ? (   
           <Table striped bordered size="sm">
             <thead>
               <tr>
                 <th>Rank</th>
-                <th>Name</th>
+                <th>Name (votes)</th>
               </tr>
             </thead>
             <tbody>
