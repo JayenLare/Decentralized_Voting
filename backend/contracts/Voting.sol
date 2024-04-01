@@ -55,6 +55,8 @@ contract Voting {
     mapping(uint256 => Attendee) attendees;
     mapping(address => bool) inviteRequested;
 
+    mapping(uint256 => string) history;
+
     mapping(address => bool) public members;
     mapping(address => bool) public media;
     mapping(address => bool) public winners;
@@ -167,6 +169,11 @@ contract Voting {
         require(!compare(choice2, ""), "Must have a second choice");
         require(!compare(choice3, ""), "Must have a third choice");
         _;
+    }
+
+    constructor () public {
+        history[2022] = "ipfs/QmXbWr1HVTNy3KA1t3Vy7GwPz9kcZmqbr2L5aMQZdKxbwu";
+        history[2021] = "ipfs/QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4";
     }
 
     function join() public {
@@ -388,6 +395,12 @@ contract Voting {
                 attendees[requestId].zip),
             attendees[requestId].membership
         );
+    }
+
+    function getHistory(uint256 year)
+        public view returns (string memory)
+    {
+        return history[year];
     }
 
     // function createBallot(

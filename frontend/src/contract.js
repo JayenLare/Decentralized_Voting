@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 
 const address = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const abi = [
+  "constructor()",
   "event BallotCast(address indexed voter, uint256 createdAt)",
   "event BallotCreated(address indexed owner, uint256 indexed ballotId, uint256 indexed createdAt, uint256 endDate)",
   "event FanJoined(address indexed fan, uint256 joinedAt)",
@@ -23,6 +24,7 @@ const abi = [
   "function fans(address) view returns (bool)",
   "function getCeremonyRequest(uint256 requestId) view returns (address, string, string, string, string)",
   "function getFanVote() view returns (string, address, uint256[], uint256)",
+  "function getHistory(uint256 year) view returns (string)",
   "function getResults() view returns (string[])",
   "function getVote(uint256 voteId) view returns (string, address, uint256[], uint256)",
   "function join()",
