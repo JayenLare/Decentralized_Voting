@@ -100,7 +100,7 @@ const History = ({contract}) => {
             {finalists.map((finalist, idx) => (
               <tr key={idx}>
                 <td>{idx+1}</td>
-                <td>{finalist} - University of Southern California (QB)</td>
+                <td>{finalist}</td>
               </tr>
             ))}
             </tbody>

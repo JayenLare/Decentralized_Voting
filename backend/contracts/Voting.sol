@@ -171,7 +171,7 @@ contract Voting {
         _;
     }
 
-    constructor () public {
+    constructor () {
         history[2022] = "ipfs/QmZqEdJ3rjeto7dtH6xSCGyGxTWoxmrvFru4GjfKqqNKXm";
         history[2021] = "ipfs/QmVVDxP5o5E4BGskBwB953mBEE6HBC6a8FngHfQHii4MvG";
         history[2020] = "ipfs/QmZyZDGscPQWqjgMTxmEjP81fqeZxyowR7z5QLHXM7Kvmr";
