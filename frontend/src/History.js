@@ -11,7 +11,7 @@ const History = ({contract}) => {
     const [year, setYear] = useState(0);
     const [results, setResults] = useState("");
     const [description, setDescription] = useState("");
-    const [options, setOptions] = useState("");
+    const [finalists, setFinalists] = useState("");
     const [clicked, setClicked] = useState(false);
     //const clicked = false;
 
@@ -34,7 +34,7 @@ const History = ({contract}) => {
                     // description = data.description;
                     // names = data.names;
                     setDescription(data.description);
-                    setOptions(data.options);
+                    setFinalists(data.finalists);
                 });
             } catch {}
         });
@@ -73,6 +73,8 @@ const History = ({contract}) => {
                 <option value={2022}>2022</option>
                 <option value={2021}>2021</option>
                 <option value={2020}>2020</option>
+                <option value={2019}>2019</option>
+                <option value={2018}>2018</option>
             </Form.Select>
         </div>
         <div style={{flex: "50%", paddingLeft: "15px"}}>
@@ -87,18 +89,18 @@ const History = ({contract}) => {
           <Table striped bordered size="sm">
             <thead>
               <tr>
-                <th colspan="2" style={{fontSize: "20px"}}>{description}</th>
+                <th colSpan="3" style={{fontSize: "20px"}}>{description}</th>
               </tr>
               <tr>
                 <th>Rank</th>
-                <th>Name</th>
+                <th>Name - School (POS)</th>
               </tr>
             </thead>
             <tbody>
-            {options.map((name, idx) => (
+            {finalists.map((finalist, idx) => (
               <tr key={idx}>
                 <td>{idx+1}</td>
-                <td>{name}</td>
+                <td>{finalist} - University of Southern California (QB)</td>
               </tr>
             ))}
             </tbody>

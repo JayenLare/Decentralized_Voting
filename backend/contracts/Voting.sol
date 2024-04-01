@@ -172,8 +172,11 @@ contract Voting {
     }
 
     constructor () public {
-        history[2022] = "ipfs/QmXbWr1HVTNy3KA1t3Vy7GwPz9kcZmqbr2L5aMQZdKxbwu";
-        history[2021] = "ipfs/QmSj7RYy2WKpqYFMqGtmtxpx4QUnEg4Bfgdru2KfGccHo4";
+        history[2022] = "ipfs/QmZqEdJ3rjeto7dtH6xSCGyGxTWoxmrvFru4GjfKqqNKXm";
+        history[2021] = "ipfs/QmVVDxP5o5E4BGskBwB953mBEE6HBC6a8FngHfQHii4MvG";
+        history[2020] = "ipfs/QmZyZDGscPQWqjgMTxmEjP81fqeZxyowR7z5QLHXM7Kvmr";
+        history[2019] = "ipfs/QmXwsiU8ydawMEqSzRUDVot6LvsGVJhMdDtHS1rARaHvUS";
+        history[2018] = "ipfs/QmRc25rpQ7bAcdSGiF86LLDuHBASmnpirKucfYeWHZZPdm";
     }
 
     function join() public {
