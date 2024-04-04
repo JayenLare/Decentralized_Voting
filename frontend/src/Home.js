@@ -13,7 +13,9 @@ const HomePage = () => {
         This platform allows the heisman trophy voting process to be completely decentralized by using blockchain technology.
         Decentralization of the voting process removes the need to trust a centralized third-party to determine the correct winner. 
         This improves overall security, transparency and trust in the Heisman trophy voting process.
-        </p>
+      </p>
+      <img src="https://upload.wikimedia.org/wikipedia/en/8/8e/Heisman_Trophy_Logo.png" alt="Heisman logo" 
+        style={{width: "40%", display: "block", marginLeft: "auto", marginRight: "auto", marginTop: "40px"}}></img>
     </div>
   );
 }
