@@ -15,7 +15,7 @@ const HomePage = () => {
         This improves overall security, transparency and trust in the Heisman trophy voting process.
       </p>
       <img src="https://upload.wikimedia.org/wikipedia/en/8/8e/Heisman_Trophy_Logo.png" alt="Heisman logo" 
-        style={{width: "40%", display: "block", marginLeft: "auto", marginRight: "auto", marginTop: "40px"}}></img>
+        style={{width: "40%", display: "block", marginLeft: "auto", marginRight: "auto", marginTop: "30px"}}></img>
     </div>
   );
 }
