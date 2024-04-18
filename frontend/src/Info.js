@@ -52,6 +52,8 @@ const Info = () => {
           </div>
         </div>
       </div>
+      <br></br>
+      <br></br>
     </div>
   );
 }
