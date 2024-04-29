@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 
 const Results = ({contract}) => {
   const [results, setResults] = useState([""]);
-  //const [candidates] = useState(["how"]);
+  //const [candidates] = useState([]);
 
   const endDate = new Date('2023-12-14');
   const currentDate = new Date();
@@ -14,6 +14,8 @@ const Results = ({contract}) => {
 
     const setResultData = async () => {
       // Call contract function to get results
+      //let candidates = [];
+      //console.log(candidates); 
       const candidates = await contract.getResults();
 
       // await contract
@@ -24,13 +26,13 @@ const Results = ({contract}) => {
       //const candidates = ["Jayden Daniels", "Michael Penix Jr.", "Bo Nix", "Marvin Harrison Jr.", "Jordan Travis", 
       //                    "Jalen Milroe", "Ollie Gordon", "Drake Maye", "JJ McCarthy", "Travis Hunter"];
 
-      //console.log(candidates);
+      console.log(candidates);
 
       //await Promise.resolve(candidates);
       
       // Update state with results
       setResults(candidates);
-      //console.log(results);
+      console.log(results);
     };
 
     setResultData();

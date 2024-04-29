@@ -344,6 +344,7 @@ contract Voting {
         string memory choice3
     ) external isNotFan canCastBallot (choice1, choice2, choice3)
     {
+        //delete results;
         canididates[choice1] += 3;
         canididates[choice2] += 2;
         canididates[choice3] += 1;
@@ -361,12 +362,14 @@ contract Voting {
             isDuplicate[choice3] = true;
         }
         sortKeys();
+        //delete formatedResults;
         formatResults();
         emit BallotCast(msg.sender, block.timestamp);
     }
 
     function formatResults() internal
     {
+        delete formatedResults;
         for (uint256 i = 0; i < results.length; i++)
         {
             formatedResults.push(string.concat(results[i], " (", toString(canididates[results[i]]), ")"));
